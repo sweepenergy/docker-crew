@@ -1,0 +1,25 @@
+<%- include("partials/header"); %>
+
+<div class="=row">
+    <% for(i in ActiveAPIs.active){ %>
+    <div class="col mb-4 ">    
+        
+        <div class="card">
+            
+          <div class="card-body">
+            <p class="card-text"> <%= ActiveAPIs.active[i].api_key %> </p>
+            <p class="card-text"> <%= ActiveAPIs.active[i].name %>  </p>
+            <p class="card-text"> <%= ActiveAPIs.active[i].ttl %>  </p>
+          </div>
+          
+        
+           
+        </div>
+    </div>  
+    <% } %>
+</div>
+
+
+
+
+<%- include("partials/footer"); %>

@@ -1,0 +1,95 @@
+<%- include("partials/header"); %>
+    
+<script type="text " src="app.js"></script>
+<div class="row mb-4 mt-4">
+        
+        <a href="/addStream" class="btn btn-sm btn-outline-secondary" id="CreateNewStreamBtn" >Create New Stream +</a>
+</div>
+
+<div class="row mb-4">
+  
+        <h2>Section title</h2>
+       
+</div>
+
+<div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Directories
+        </button>
+
+        
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <% for(i in homeDirectory){ %>
+            <% var temp = homeDirectory.directory %>
+             <% for( var j = 0; j < temp.length; j++) { %>
+          <li><a class="dropdown-item" href="#"></a><%= temp[j].name %></a></li>
+          
+                  <% } %>  
+                <% break %>
+            <% } %>
+        </ul>
+
+        
+
+</div>
+    
+
+<div class="table-responsive">
+  <table class="table table-striped table-sm table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Streams</th>
+        <th>IP</th>
+        <th>Port Number</th>
+        <th>Status</th>
+        <th>Monitor Frequency</th>
+        <th>Parameters Monitored</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+
+        <% for(i in homeDirectory){ %>
+                <% var temp = homeDirectory.directory %>
+                 <% for( var j = 0; j < temp.length; j++) { %>
+
+        <!-- testing with GET -->
+        <form action="https://api.sweepapi.com/stream/<%= temp[j].id %> " method="GET">
+          <tr>
+            <td> <a href="/streamData"> <%= temp[j].name %> </a></td>
+            
+            
+            <td> <a href="list.ejs"> <button name="id" >  <%= temp[j].id %> </button> </a></td>
+            
+            <td>random</td>
+            <td>data</td>
+            <td>placeholder</td>
+            <td>text</td>
+            <td>placeholder</td>
+            <td>
+                    <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+                    
+            </td>
+          </tr>
+        </form>
+        
+      
+        <% } %>  
+        <% break %>
+    <% } %>
+
+    </tbody>
+  </table>
+</div>
+</main>
+</div>
+</div>
+
+
+
+<%- include("partials/footer"); %>
+
+
+    

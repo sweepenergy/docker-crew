@@ -1,0 +1,49 @@
+<%- include("partials/header"); %>
+
+<form action="/addDevice" method="POST">
+    <div class="mb-3">
+      <label class="form-label">Directory ID</label>
+      <input type="text" class="form-control" name="directory_id">
+      
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" name="name">
+        
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Var Name</label>
+        <input type="text" class="form-control" name="var_name">
+        
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Display Name</label>
+        <input type="text" class="form-control" name="display_name">
+        
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <input type="text" class="form-control" name="description">
+        
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Units</label>
+        <input type="text" class="form-control" name="units">
+        
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Type</label>
+        <input type="text" class="form-control" name="type">
+        
+    </div>
+
+    <!-- <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Top Directory</label>
+      <input type="text" class="form-control" name="TopDir">
+    </div> -->
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+
+<%- include("partials/footer"); %>

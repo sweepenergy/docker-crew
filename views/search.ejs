@@ -1,0 +1,19 @@
+<%- include("partials/header"); %>
+
+
+<h1>Enter a API unique ID to search</h1>
+
+
+<form action="/test" method="GET"> 
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="text" class="form-control" name="searchterm">
+     
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+<%- include("partials/footer"); %>
+
+<!-- https://api.sweepapi.com/account/auth/api_key/{{api_key_id}} -->
