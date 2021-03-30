@@ -7,3 +7,25 @@ body{
     font-weight: bold;
 }
 
+#login-header{
+    /*color:rgba(21, 241, 230, 0.808);*/
+    color: blueviolet;
+}
+
+#ExitUIBtn{
+    background-color: rgb(53, 1, 88);
+    color:white;
+    font-weight: bold;
+}
+
+#ContinueBtn{
+    background-color: rgb(19, 48, 212);
+    color:white;
+    font-weight: bold;
+}
+
+#deleteParameterBtn{
+    background-color: rgb(212, 48, 19);
+    color:white;
+    font-weight: bold;
+}
