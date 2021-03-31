@@ -30,33 +30,25 @@ var streamSchema = new mongoose.Schema({
 var Stream = mongoose.model("Stream", streamSchema);
 
 
-// Stream.create({
-    
-//         var_name: "current_r",
-//         display_name: "R Current",
-//         description: "residual current",
-//         units: "amps",
-//         type: "number"
-    
-// }, function(error,data){
-//     if(error){
-//         console.log("There was a problem adding an element to collection")
-//         console.log(error);
-//     }else{
-//         console.log("Data added to collection");
-//         console.log(data);
-//     }
-// })
+const headers = {
+    'Content-Type': 'application/json',
+    'data-raw': ''
+}
 
-// Stream.find({}, function(error,data){
-//     if(error){
-//         console.log("There was a problem finding data")
-//         console.log(error);
-//     }else{
-//         console.log("Here is data from collection");
-//         console.log(data);
-//     }
-// })
+const config = {
+    headers: {
+        'Content-Type': 'application/json',
+        'data-raw': ''
+    },
+                
+    auth:{
+        username: process.env.AUTH_KEY,
+        password: process.env.AUTH_TOKEN
+    }
+}
+
+
+var baseURL = "https://api.sweepapi.com/";
 
 
 //looking for static files inside public
@@ -71,7 +63,7 @@ app.get("/", function(req,res){
 
     axios.get(baseURL + "directory/home", config).then(function(response){
         res.render("homepage", {
-            homeDirectory: response.data
+            homeDirectory : response.data
         });
 
 
@@ -80,10 +72,6 @@ app.get("/", function(req,res){
     });
     // res.render("homepage.ejs");
 })
-
-app.get("/info", function(req,res){
-    res.render("info.ejs");
-});
 
 app.get('/login', function(req, res, next) { 
 
@@ -128,67 +116,19 @@ app.get("/search", function(req,res){
 // const email = "jpotosme@ucmerced.edu";
 // const password= "JakesTesting_209";
 
-const headers = {
-    'Content-Type': 'application/json',
-    'data-raw': ''
-}
 
-const config = {
-    headers: {
-        'Content-Type': 'application/json',
-        'data-raw': ''
-    },
-                
-    auth:{
-        username: process.env.AUTH_KEY,
-        password: process.env.AUTH_TOKEN
-    }
-}
-
-
-var baseURL = "https://api.sweepapi.com/";
 
 app.get('/apis', function(req,res){
 
-    // var searchTerm = req.query.searchterm;
-    // var searchTerm = "ad9fe988-484d-43b4-83ce-4c7a8b10b6e8";
-    // console.log(searchTerm);
-
-    axios.get(baseURL + "account/auth/api_key/", {
-        headers: {
-            'Content-Type': 'application/json',
-            'data-raw': ''
-        },
-                    
-        auth:{
-            username: process.env.AUTH_KEY,
-            password: process.env.AUTH_TOKEN
-        }
-    }).then(function(response){
+    axios.get(baseURL + "account/auth/api_key/", config).then(function(response){
         res.render("apis", {
             ActiveAPIs: response.data
         });
-
-        // console.log(response.status);
-        // console.log("here");
-        // console.log(response.data.active);
-
-        // var res = response.data;
-        // console.log("res:" + res);
-
-        // for(i in response.data.active){
-        //     var apiName = response.data.active[i].api_key;
-        //     // console.log("in for loop")
-        //     console.log("Active API Key: " + apiName);
-        // }
         
 
     }).catch(function(error){
         console.log("This is the error" + error);
     });
-
-
-
 
     // res.render("apis.ejs");
 });
@@ -225,15 +165,6 @@ app.get('/streams', function(req,res){
     res.render("streams.ejs");
 });
 
-const localStreams = [];
-// console.log(localStreams);
-
-function handleSubmit(){
-    const id = document.getElementById("id").value;
-    localStorage.setItem("CurrentStreamID", id);
-
-    return;
-}
 
 
 app.get('/streamData', function(req,res){
@@ -260,93 +191,6 @@ app.post("/streamData", function(req,res){
     console.log(currentStreamID);
 })
 
-//THIS WORKS
-// axios.post("https://api.sweepapi.com/account/auth/api_key",{
-//     "global_auth" : ["get","post"],
-//     "local_auth" : ["get.stream","get.directory"],
-//     "ttl":"",
-//     "name":"My Test with axios"
-// }, {
-//     headers: {
-//                 'Content-Type': 'application/json',
-//                 'data-raw': ''
-//             },
-        
-//             auth:{
-//                 username: process.env.AUTH_KEY,
-//                 password: process.env.AUTH_TOKEN
-//             }
-// }).then(function(response){
-//     console.log(response.data);
-//     console.log(response.data.session_api_token);
-//     console.log(response.data.session_api_id);
-
-// }).catch(function(error){
-//     console.log(error);
-// })
-
-// axios.delete("https://api.sweepapi.com/account/auth/api_key/{ad9fe988-484d-43b4-83ce-4c7a8b10b6e8}",{
-//     headers: {
-//         'Content-Type': 'application/json',
-//         'data-raw': ''
-//     },
-
-//     auth:{
-//         username: process.env.AUTH_KEY,
-//         password: process.env.AUTH_TOKEN
-//     }
-// }).then(function(response){
-//         console.log(response.data);
-        
-    
-//     }).catch(function(error){
-//         console.log(error);
-//     })
-
-// var currentURL = "https://api.sweepapi.com/account/auth/api_key";
-
-// axios.get(currentURL, {
-//     headers: {
-//         'Content-Type': 'application/json',
-//         'data-raw': ''
-//     },
-                
-//     auth:{
-//         username: process.env.AUTH_KEY,
-//         password: process.env.AUTH_TOKEN
-//     }
-// }).then(function(response){
-//     console.log(response.status);
-//     console.log("here")
-//     console.log(response.data.active);
-
-//     // var res = response.data;
-//     // console.log("res:" + res);
-
-//     for(i in response.data.active){
-//         var apiName = response.data.active[i].api_key;
-//         // console.log("in for loop")
-//         console.log("Active API Key: " + apiName);
-//     }
-    
-
-// }).catch(function(error){
-//     console.log("This is the error" + error);
-// });
-
-
-// const instance = axios.create({
-//     baseURL: 'https://api.sweepapi.com',
-//     timeout: 1000,
-//     headers : {
-//         'Content-Type': 'application/json',
-//         'data-raw': ''
-//     },
-//     auth: {
-//         email: "jpotosme@ucmerced.edu",
-//         password:"JakesTesting_209"
-//     }
-//   });
 
 app.get("/addDirectory", function(req,res){
     res.render("addDirectory.ejs");
@@ -357,27 +201,14 @@ app.post("/addDirectory", async function(req,res){
     console.log(dirData);
 
 
-axios.post("https://api.sweepapi.com/directory",dirData, {
-        headers: {
-                    'Content-Type': 'application/json',
-                    'data-raw': ''
-                },
+    axios.post("https://api.sweepapi.com/directory",dirData, config)
+        .then(function(response){
+            console.log(response);
             
-                auth:{
-                    username: process.env.AUTH_KEY,
-                    password: process.env.AUTH_TOKEN
-                }
-    })
-    .then(function(response){
-        console.log(response);
-        
 
-    }).catch(function(error){
-        console.log(error);
-    })
-    
-  
-// createDir()  
+        }).catch(function(error){
+            console.log(error);
+        })
 
 res.redirect("/addDirectory");
 
@@ -391,8 +222,6 @@ app.post("/addStream", function(req,res){
 
     var streamData = req.body;
     console.log(streamData);
-
-   
 
     axios.post(baseURL+ "stream", streamData,config)
     .then(function(response){
@@ -416,6 +245,8 @@ app.get("/addDevice", function(req,res){
 app.post("/addDevice", function(req,res){
     var data = req.body;
     console.log(data);
+
+    //gets added to MongoDB
     Stream.create({
         var_name: data.var_name,
         display_name: data.display_name,
@@ -433,22 +264,7 @@ app.post("/addDevice", function(req,res){
     res.redirect("/list");
 });
 
-// app.post(baseURL+ "directory",{
 
-// },{
-//     headers: {
-//         'Content-Type': 'application/json',
-//         'data-raw': ''
-//     },
-                
-//     auth:{
-//         username: process.env.AUTH_KEY,
-//         password: process.env.AUTH_TOKEN
-//     }
-// }, function(req,res){
-//     var data = req.body;
-//     console.log(data);
-// });
 
 app.get('/test', function(req,res){
 
@@ -474,9 +290,6 @@ app.get('/test', function(req,res){
     }).catch(function(error){
         console.log("This is the error" + error);
     });
-
-
-
 
 });
 

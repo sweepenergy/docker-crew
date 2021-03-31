@@ -63,7 +63,7 @@
                  <% for( var j = 0; j < temp.length; j++) { %>
 
         <!-- testing with GET -->
-        <form action="https://api.sweepapi.com/stream/<%= temp[j].id %> " method="GET">
+        <form action="/streamData" method="GET">
           <tr>
             <td> <a href="/streamData"> <%= temp[j].name %> </a></td>
             
