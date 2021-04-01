@@ -6,7 +6,12 @@ const bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb+srv://testing_123:testing_123@sweeptest.x4jho.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
+const Directory = require('./models/directory.js');
+const { render } = require('ejs');
+
+//dockerDB uri = mongodb+srv://netninja:test123@sweep25.b5rar.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+
+mongoose.connect("mongodb+srv://netninja:test123@sweep25.b5rar.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
    useNewUrlParser: true,
    useUnifiedTopology: true
 }, function(error){
@@ -16,18 +21,6 @@ mongoose.connect("mongodb+srv://testing_123:testing_123@sweeptest.x4jho.mongodb.
         console.log("connected to the database");
     }
 });
-
-// schema -> model -> collection
-var streamSchema = new mongoose.Schema({
-    var_name: String,
-    display_name: String,
-    description: String,
-    units: String,
-    type: String
-});
-
-
-var Stream = mongoose.model("Stream", streamSchema);
 
 
 const headers = {
@@ -54,6 +47,7 @@ var baseURL = "https://api.sweepapi.com/";
 //looking for static files inside public
 app.use(express.static("public"));
 
+//middle ware 
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.set("view engine", "ejs");
@@ -71,6 +65,66 @@ app.get("/", function(req,res){
         console.log("This is the error" + error);
     });
     // res.render("homepage.ejs");
+})
+
+app.get('/dbHome', function(req,res){
+    Directory.find()
+    .then((result) =>{
+        res.render("dbHome", {
+            directories: result
+        })
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
+});
+
+app.post('/dbHome', function(req,res){
+    const directory = new Directory(req.body);
+
+    directory.save()
+        .then((result) => {
+            res.redirect('/dbHome');
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+});
+
+app.get("/dbAddDirectory", function(req,res){
+    res.render("dbAddDirectory.ejs");
+})
+
+app.get("/dbHome/:id", function(req,res){
+    const id = req.params.id;
+   
+    Directory.findById(id)
+        .then(result=>{
+            
+            console.log("rendering data...");
+
+            res.render('directoryDetails', {
+                directory: result  
+            })
+        })
+        .catch((err) =>{
+            console.log(err);
+        })
+        
+    console.log("Selected id: " + id);
+});
+
+//AJAX REQUEST
+app.delete('/dbHome/:id', function(req,res){
+    const id = req.params.if;
+
+    Directory.findByIdAndDelete(id)
+        .then((result) => {
+            res.json({ redirect: '/dbHome'})
+        })
+        .catch(err => console.log(err));
 })
 
 app.get('/login', function(req, res, next) { 

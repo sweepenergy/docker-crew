@@ -1,0 +1,30 @@
+<%- include("partials/header"); %>
+      <h1>Directory Data</h1>   
+
+      <div>
+        <h2> <%= directory.name %></h2>
+        <button><a class="delete" data-doc="<%= directory._id %>">delete</a></button>
+      </div>
+  
+
+      <script>
+        const trashcan = document.querySelector('a.delete');
+    
+        trashcan.addEventListener('click', (e) =>{
+            const endpoint = `/directory/${trashcan.dataset.doc}`;
+    
+            fetch(endpoint, {
+                method: 'DELETE'
+            })
+            //need to do this way since it is being rendered in front end
+            //converts response into json which we can then manipulate
+            .then((response) => response.json())
+            .then((data) => window.location.href = data.redirect)
+            .catch(err => console.log(err));
+    
+            // axios.delete
+        })
+    
+    
+    </script>
+<%- include("partials/footer"); %>
