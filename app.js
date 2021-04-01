@@ -9,9 +9,8 @@ const mongoose = require("mongoose");
 const Directory = require('./models/directory.js');
 const { render } = require('ejs');
 
-//dockerDB uri = mongodb+srv://netninja:test123@sweep25.b5rar.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 
-mongoose.connect("mongodb+srv://netninja:test123@sweep25.b5rar.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
+mongoose.connect(process.env.URI,{
    useNewUrlParser: true,
    useUnifiedTopology: true
 }, function(error){
