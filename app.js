@@ -233,10 +233,25 @@ app.get('/streams', function(req,res){
 
 
 
-app.get('/streamData/:id', function(req,res){
+app.get('/directoryData/:id', function(req,res){
+    const id = req.params.id;
+    console.log(id);
+    
 
-    console.log(res);
-    // axios.get(baseURL+"stream/"+currentStreamID, config).then(function(response){
+    axios.get(baseURL+"directory/" + id, config).then(function(response){
+        console.log(response.data);
+        res.render("directoryData", {
+            dirData: response.data
+        })
+    }).catch( function(error){
+        console.log(error);
+    })
+    
+
+    // res.render("streamData.ejs", {SD:localStreams});
+})
+
+// axios.get(baseURL+"stream/"+currentStreamID, config).then(function(response){
     //     console.log(response.data);
     //     // res.render("streams",{
     //     //     streamIDs: response.data
@@ -245,16 +260,20 @@ app.get('/streamData/:id', function(req,res){
     //     console.log("This is the error" + error);
     // });
 
-    //SD = STREAM DATA 
-    
+app.get("/streamData/:id", function(req,res){
+    const id = req.params.id;
+    console.log(id);
 
-    res.render("streamData.ejs", {SD:localStreams});
-})
-
-app.post("/streamData", function(req,res){
-    var currentStreamID = req.body;
-
-    console.log(currentStreamID);
+    axios.get(baseURL+"stream/"+id, config)
+            .then(function(response){
+                console.log(response.data);
+                res.render("streamData",{
+                    streamData:response.data
+                })
+            })
+            .catch( function(error){
+                console.log(error);
+            })
 })
 
 

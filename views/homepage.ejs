@@ -64,12 +64,12 @@
                  <% for( var j = 0; j < temp.length; j++) { %>
 
         <!-- testing with GET -->
-        <form action="/streamData" method="GET">
+        <form action="/directoryData" method="GET">
           <tr>
-            <td> <a href="/streamData"> <%= temp[j].name %> </a></td>
+            <td>  <%= temp[j].name %> </td>
             
             
-            <td> <a href="list.ejs"> <button name="id" >  <%= temp[j].id %> </button> </a></td>
+            <td> <a href="/directoryData/<%= temp[j].id %>">   <%= temp[j].id %>  </a></td>
             
             <td>random</td>
             <td>data</td>
