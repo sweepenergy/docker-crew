@@ -44,7 +44,7 @@ var baseURL = "https://api.sweepapi.com/";
 
 
 //looking for static files inside public
-app.use(express.static("public"));
+app.use(express.static(__dirname +"/public"));
 
 //middle ware 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -98,19 +98,32 @@ app.get("/dbAddDirectory", function(req,res){
 
 app.get("/dbHome/:id", function(req,res){
     const id = req.params.id;
-   
-    Directory.findById(id)
-        .then(result=>{
-            
-            console.log("rendering data...");
-
-            res.render('directoryDetails', {
-                directory: result  
-            })
-        })
-        .catch((err) =>{
+    
+    Directory.findById(id, function(err, docs){
+        if(err){
             console.log(err);
-        })
+        }
+        // else if(id != "style.css"){
+        else{
+            console.log("result: ", docs);
+            res.render('directoryDetails', {
+                    directory: docs 
+                })
+        }
+    });
+
+    // Directory.findById(id)
+    //     .then(result=>{
+            
+    //         console.log("rendering data...");
+
+    //         res.render('directoryDetails', {
+    //             directory: result  
+    //         })
+    //     })
+    //     .catch((err) =>{
+    //         console.log(err);
+    //     })
         
     console.log("Selected id: " + id);
 });
@@ -220,7 +233,7 @@ app.get('/streams', function(req,res){
 
 
 
-app.get('/streamData', function(req,res){
+app.get('/streamData/:id', function(req,res){
 
     console.log(res);
     // axios.get(baseURL+"stream/"+currentStreamID, config).then(function(response){
