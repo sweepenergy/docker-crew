@@ -3,10 +3,10 @@ This project is being developed by Sweep 25 of the Spring 2021 CSE120 course.
 Team members: Malia Bowman, Gustavo Canela, Wyssanie Chomsin, Jakob Potosme, Spencer Tang
 # Version 2
 ## Sub Team Members
-- **API Team:** Jakob
-- **Database Team:** 
-- **UI Team:**
-- **Modbus/Bacnet Team:**
+- **API Team:** Jakob, Malia, Spencer
+- **Database Team:** Jakob, Mannie, Gustavo
+- **UI Team:** Malia
+- **Modbus/Bacnet Team:** Mannie
 ## Use Cases
 - [ ] User can create a directory on the Sweep API from the webapp interface
     - [ ] **[UITeam]** Add *Create Directory* button to Directories UI page
@@ -30,10 +30,10 @@ STRETCH GOALS: Further things to complete if we have time
 
 # Version 1
 ## Sub Team Members
-- **API Team:** Jakob
+- **API Team:** Jakob, Malia, Spencer
 - **Docker Team:** Mannie
-- **Database Team:** 
-- **UI Team:** 
+- **Database Team:** Jakob, Gustavo
+- **UI Team:** Malia
 ## Use Cases
 Here we layout the required use cases for our first implementation, as well as the tasks required to implement them.
 - [x] User can launch a Node.js application in a docker container
