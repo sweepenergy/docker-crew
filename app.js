@@ -327,27 +327,27 @@ app.get("/addDevice", function(req,res){
 });
 
 
-app.post("/addDevice", function(req,res){
-    var data = req.body;
-    console.log(data);
+// app.post("/addDevice", function(req,res){
+//     var data = req.body;
+//     console.log(data);
 
-    //gets added to MongoDB
-    Stream.create({
-        var_name: data.var_name,
-        display_name: data.display_name,
-        description: data.description,
-        units: data.units,
-        type: data.type
-    }, function(error,data){
-        if(error){
-            console.log("There was a problem adding this device data");
-        }else{
-            console.log("added successfully");
-            console.log(data);
-        }
-    })
-    res.redirect("/list");
-});
+//     //gets added to MongoDB
+//     Stream.create({
+//         var_name: data.var_name,
+//         display_name: data.display_name,
+//         description: data.description,
+//         units: data.units,
+//         type: data.type
+//     }, function(error,data){
+//         if(error){
+//             console.log("There was a problem adding this device data");
+//         }else{
+//             console.log("added successfully");
+//             console.log(data);
+//         }
+//     })
+//     res.redirect("/list");
+// });
 
 
 
