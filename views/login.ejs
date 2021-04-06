@@ -18,14 +18,16 @@
     </div> -->
     
     <form id="login-form">
-      <div class="col">
-        <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
+      <div class="mb-3">
+        <label for="exampleDropdownFormEmail" class="form-label">Username</label>
+        <input type="email" class="form-control" id="exampleDropdownFormEmail" placeholder="Username">
       </div>
-      <div class="col">
-        <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+      <div class="mb-3">
+        <label for="exampleDropdownFormPassword" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleDropdownFormPassword" placeholder="Password">
       </div>
-      <div class="col">
-        <input type="submit" value="Login" id="login-form-submit">
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Sign in</button>
       </div>
 
     </form>
