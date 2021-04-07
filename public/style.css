@@ -49,6 +49,15 @@ div.card-body{
   background-color: rgb(162, 79, 79);
 } */
 
+.btn{
+  background-color:#81219e;
+    color:white;
+    font-weight: bold;
+}
+#streamData-id{
+  text-align: center;
+}
+
 /* Link used for the switch css: https://www.w3schools.com/howto/howto_css_switch.asp*/
 /* The switch - the box around the slider */
 .switch {
