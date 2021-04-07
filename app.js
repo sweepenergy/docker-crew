@@ -300,7 +300,19 @@ res.redirect("/addDirectory");
 });
 
 app.get("/addStream", function(req,res){
-    res.render("addStream.ejs");
+
+    axios.get(baseURL + "directory/home", config).then(function(response){
+        res.render("addStream", {
+            homeDirectory : response.data
+        });
+
+
+    }).catch(function(error){
+        console.log("This is the error" + error);
+    });
+
+
+    // res.render("addStream.ejs");
 })
 
 app.post("/addStream", function(req,res){
