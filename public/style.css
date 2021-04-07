@@ -5,6 +5,12 @@
     font-weight: bold;
 }
 
+#CreateNewDirectoryBtn{
+  background-color: blueviolet;
+  color:white;
+  font-weight: bold;
+}
+
 #login-header{
     /*color:rgba(21, 241, 230, 0.808);*/
     color: blueviolet;
