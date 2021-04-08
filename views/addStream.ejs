@@ -1,49 +1,131 @@
 <%- include("partials/header"); %>
+<div class="row mb-4">
+    <h2>Create New Stream</h2>
+</div>
 
-<form action="/addStream" method="POST">
-    <div class="mb-3">
-      <label class="form-label">Directory ID</label>
-      <input type="text" class="form-control" name="directory_id">
+
+
+
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Directory ID
+      </button>
+
+     
+      <% for(i in homeDirectory){ %>
+        <% var temp = homeDirectory.directory %>
+         
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+         
+          <% for( var j = 0; j < temp.length; j++) { %>
+          <a class="dropdown-item" href="#"> <%= temp[j].id %></a>
+          <% } %>  
+          <% break %>
+        
+        </div>
+        
+    <% } %>
       
     </div>
-    <div class="mb-3">
-        <label class="form-label">Name</label>
-        <input type="text" class="form-control" name="name">
-        
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Var Name</label>
-        <input type="text" class="form-control" name="inputDataVar[][var_name]">
-        
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Display Name</label>
-        <input type="text" class="form-control" name="inputDataVar[][display_name]">
-        
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Description</label>
-        <input type="text" class="form-control" name="inputDataVar[][description]">
-        
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Units</label>
-        <input type="text" class="form-control" name="inputDataVar[][units]">
-        
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Type</label>
-        <input type="text" class="form-control" name="inputDataVar[][type]">
-        
-    </div>
 
-    <!-- <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Top Directory</label>
-      <input type="text" class="form-control" name="TopDir">
-    </div> -->
+   
+<div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky pt-3">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">
+                <span data-feather="home"></span>
+                Homepage
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/apis">
+                <span data-feather="file"></span>
+                API's
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/directories">
+                <span data-feather="shopping-cart"></span>
+                Directories
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <a href="/addDirectory" class="btn btn-sm btn-outline-secondary" id="CreateNewDirectoryBtn" >Create New Directory</a>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <a href="/addStream" class="btn btn-sm btn-outline-secondary" id="CreateNewStreamBtn" >Create New Stream</a>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <a href="/login" class="btn btn-sm btn-outline-secondary" id="ExitUIBtn" >Logout</a>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <form action="/addStream" method="POST">
+
+        <div class="mb-3">
+          <label class="form-label">Selected Directory</label>
+          <input type="text" class="form-control" name="directory_id">
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" name="name">
+            
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Var Name</label>
+            <input type="text" class="form-control" name="inputDataVar[][var_name]">
+            
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Display Name</label>
+            <input type="text" class="form-control" name="inputDataVar[][display_name]">
+            
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <input type="text" class="form-control" name="inputDataVar[][description]">
+            
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Units</label>
+            <input type="text" class="form-control" name="inputDataVar[][units]">
+            
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Type</label>
+            <input type="text" class="form-control" name="inputDataVar[][type]">
+            
+        </div>
     
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+        <!-- <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Top Directory</label>
+          <input type="text" class="form-control" name="TopDir">
+        </div> -->
+        
+        <button type="submit" class="btn">Submit</button>
+      </form>
+    </main>
+    
+    </div>
+    
+</div>
+      
+
+
 
 
 <%- include("partials/footer"); %>
