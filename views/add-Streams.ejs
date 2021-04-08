@@ -1,0 +1,35 @@
+<%- include("partials/header"); %>
+
+<form action="/add-Streams" method="POST">
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Display Name</label>
+      <input type="text" class="form-control" name="display_name">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Description</label>
+      <input type="text" class="form-control" name="description">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Units</label>
+      <input type="text" class="form-control" name="units">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Type</label>
+      <input type="text" class="form-control" name="type">
+    </div>
+
+    <!-- <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Top Directory</label>
+      <input type="text" class="form-control" name="TopDir">
+    </div> -->
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+
+<%- include("partials/footer"); %>
+<!-- var_name = 'modbus device #1',
+    //     display_name = 'testing device #1',
+    //     description = 'testing description',
+    //     units = 'degrees',
+    //     type = 'temperature' -->

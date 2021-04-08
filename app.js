@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const Directory = require('./models/directory.js');
-const Stream = require('./models/streams.js');
+const Stream = require('./models/stream.js');
 const { render } = require('ejs');
 
 
@@ -133,23 +133,34 @@ app.get("/dbHome/:id", function(req,res){
 
 //////////// streams
 //req = require object, res = response object
-app.get('/add-Streams', function(req,res){
-    const stream = new Stream({
-        var_name = 'modbus device #1',
-        display_name = 'testing device #1',
-        description = 'testing description',
-        units = 'degrees',
-        type = 'temperature'
-    });
-
-    //where it saves in DB 
+app.post('/add-Streams', function(req,res){
+    
+    const stream = new Stream(req.body);
+    console.log(stream);
+    
     stream.save()
         .then((result) => {
-            res.send(result)
+            res.redirect('/dbHome');
         })
-        .catch((err) => {                
+        .catch((err) => {
             console.log(err);
         })
+    // const stream = new Stream({
+    //     var_name = 'modbus device #1',
+    //     display_name = 'testing device #1',
+    //     description = 'testing description',
+    //     units = 'degrees',
+    //     type = 'temperature'
+    // });
+
+    // //where it saves in DB 
+    // stream.save()
+    //     .then((result) => {
+    //         res.send(result)
+    //     })
+    //     .catch((err) => {                
+    //         console.log(err);
+    //     })
 })
 
 //displaying all stream, also displays latest update on top
