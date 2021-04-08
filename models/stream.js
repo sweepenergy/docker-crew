@@ -9,9 +9,8 @@ const streamSchema = new Schema({
     description: String,
     units: String,
     type: String
-});
+}, {timestamps: true});
 
-
+// so we can use directory throughout the project
 const Stream = mongoose.model("Stream", streamSchema);
-
 module.exports = Stream;

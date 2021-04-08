@@ -5,13 +5,8 @@ const directorySchema = new Schema({
     name:{
         type: String,
         required: true
-    },
-    // top_dir:{
-    //     type: String,
-    //     required: false
-    // },
-});
+    }, 
+}, {timestamps: true});
 
 const Directory = mongoose.model('Directory', directorySchema);
-
 module.exports = Directory;

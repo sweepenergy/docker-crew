@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const Directory = require('./models/directory.js');
+const Stream = require('./models/streams.js');
 const { render } = require('ejs');
 
 
@@ -44,7 +45,7 @@ var baseURL = "https://api.sweepapi.com/";
 
 
 //looking for static files inside public
-app.use(express.static(__dirname +"/public"));
+app.use(express.static(__dirname + "/public"));
 
 //middle ware 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -128,6 +129,62 @@ app.get("/dbHome/:id", function(req,res){
     console.log("Selected id: " + id);
 });
 
+
+
+//////////// streams
+//req = require object, res = response object
+app.get('/add-Streams', function(req,res){
+    const stream = new Stream({
+        var_name = 'modbus device #1',
+        display_name = 'testing device #1',
+        description = 'testing description',
+        units = 'degrees',
+        type = 'temperature'
+    });
+
+    //where it saves in DB 
+    stream.save()
+        .then((result) => {
+            res.send(result)
+        })
+        .catch((err) => {                
+            console.log(err);
+        })
+})
+
+//displaying all stream, also displays latest update on top
+app.get('/streams', (req,res) => {
+    Streams.find().sort({createdAt: -1})
+        .then((result) => {
+            res.render('streams', {title: 'All Devices?', streams: result})
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+})
+
+// //get all devices from DB
+// app.get('/all-Streams', (req, res) =>{
+//     Stream.find();
+//         .then((result) => {
+//             res.send(result);
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//         });
+// });
+
+// //get 1 device
+// app.get('/single-stream', (req, res) => {
+//     Stream.findById('')
+//     .then((result) => {
+//         res.send(result);
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });
+// })
+
 //AJAX REQUEST
 app.delete('/dbHome/:id', function(req,res){
     const id = req.params.if;
@@ -199,7 +256,7 @@ app.get('/apis', function(req,res){
     // res.render("apis.ejs");
 });
 
-app.get('/directories', function(req,res){
+app.get('/adddirectories', function(req,res){
 
     axios.get(baseURL + "directory/home", config).then(function(response){
         console.log(response.data);
