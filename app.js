@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const Directory = require('./models/directory.js');
-const Stream = require('./models/streams.js');
+const Stream = require('./models/streamgit.js');
 const { render } = require('ejs');
 
 
