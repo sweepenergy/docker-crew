@@ -129,12 +129,28 @@ app.get("/dbHome/:id", function(req,res){
     console.log("Selected id: " + id);
 });
 
+app.get('/dbStream', function(req,res){
+    res.render ('dbStream.ejs');
+    })
+
+app.post('/dbStream', function(req,res){
+
+    const stream = new Stream(req.body);
+    console.log(stream);
+    
+    stream.save()
+        .then((result) => {
+            res.redirect('/dbHome');
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+})
+
 app.get('/add-Streams', function(req,res){
     res.render ('add-Streams.ejs');
     })
 
-//////////// streams
-//req = require object, res = response object
 app.post('/add-Streams', function(req,res){
     
     const stream = new Stream(req.body);
@@ -147,34 +163,18 @@ app.post('/add-Streams', function(req,res){
         .catch((err) => {
             console.log(err);
         })
-    // const stream = new Stream({
-    //     var_name = 'modbus device #1',
-    //     display_name = 'testing device #1',
-    //     description = 'testing description',
-    //     units = 'degrees',
-    //     type = 'temperature'
-    // });
-
-    // //where it saves in DB 
-    // stream.save()
-    //     .then((result) => {
-    //         res.send(result)
-    //     })
-    //     .catch((err) => {                
-    //         console.log(err);
-    //     })
 })
 
 //displaying all stream, also displays latest update on top
-app.get('/streams', (req,res) => {
-    Streams.find().sort({createdAt: -1})
-        .then((result) => {
-            res.render('streams', {title: 'All Devices?', streams: result})
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-})
+// app.get('/streams', (req,res) => {
+//     Streams.find().sort({createdAt: -1})
+//         .then((result) => {
+//             res.render('streams', {title: 'All Devices?', streams: result})
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//         })
+// })
 
 // //get all devices from DB
 // app.get('/all-Streams', (req, res) =>{
