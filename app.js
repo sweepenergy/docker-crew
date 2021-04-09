@@ -225,6 +225,22 @@ app.get('/login', function(req, res, next) {
     res.render('login.ejs');
 }); 
 
+app.get('/newAccount', function(req, res, next) { 
+
+
+    axios.get(baseURL + "account/verify_auth", config).then(function(response){
+        res.render("directories", {
+            homeDirectory: response.data
+        });
+
+
+    }).catch(function(error){
+        console.log("This is the error" + error);
+    });
+
+    res.render('newAccount.ejs');
+}); 
+
 app.get('/list', function(req,res){
     
     Stream.find({}, function(error,streams){
