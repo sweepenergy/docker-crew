@@ -1,6 +1,17 @@
-require('dotenv').config()
+// check if in development or production mode
+if (process.env.NODE_ENV !== 'production') {
+    // require dotenv module to read environmental variables from .env file
+    require('dotenv').config();
+}
+
+// read port and host addresses from .env file or cloud host's default
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || "localhost";
+
+// require expressjs module
 const express = require("express");
 const app = express();
+
 const axios = require('axios')
 const bodyParser = require("body-parser");
 
@@ -45,7 +56,7 @@ var baseURL = "https://api.sweepapi.com/";
 
 
 //looking for static files inside public
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname +"/public"));
 
 //middle ware 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -129,75 +140,6 @@ app.get("/dbHome/:id", function(req,res){
     console.log("Selected id: " + id);
 });
 
-app.get('/dbStream', function(req,res){
-    res.render ('dbStream.ejs');
-    })
-
-app.post('/dbStream', function(req,res){
-
-    const stream = new Stream(req.body);
-    console.log(stream);
-    
-    stream.save()
-        .then((result) => {
-            res.redirect('/dbHome');
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-})
-
-app.get('/add-Streams', function(req,res){
-    res.render ('add-Streams.ejs');
-    })
-
-app.post('/add-Streams', function(req,res){
-    
-    const stream = new Stream(req.body);
-    console.log(stream);
-    
-    stream.save()
-        .then((result) => {
-            res.redirect('/dbHome');
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-})
-
-//displaying all stream, also displays latest update on top
-// app.get('/streams', (req,res) => {
-//     Streams.find().sort({createdAt: -1})
-//         .then((result) => {
-//             res.render('streams', {title: 'All Devices?', streams: result})
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         })
-// })
-
-// //get all devices from DB
-// app.get('/all-Streams', (req, res) =>{
-//     Stream.find();
-//         .then((result) => {
-//             res.send(result);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         });
-// });
-
-// //get 1 device
-// app.get('/single-stream', (req, res) => {
-//     Stream.findById('')
-//     .then((result) => {
-//         res.send(result);
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     });
-// })
-
 //AJAX REQUEST
 app.delete('/dbHome/:id', function(req,res){
     const id = req.params.if;
@@ -223,22 +165,6 @@ app.get('/login', function(req, res, next) {
     });
 
     res.render('login.ejs');
-}); 
-
-app.get('/newAccount', function(req, res, next) { 
-
-
-    axios.get(baseURL + "account/verify_auth", config).then(function(response){
-        res.render("directories", {
-            homeDirectory: response.data
-        });
-
-
-    }).catch(function(error){
-        console.log("This is the error" + error);
-    });
-
-    res.render('newAccount.ejs');
 }); 
 
 app.get('/list', function(req,res){
@@ -285,7 +211,7 @@ app.get('/apis', function(req,res){
     // res.render("apis.ejs");
 });
 
-app.get('/adddirectories', function(req,res){
+app.get('/directories', function(req,res){
 
     axios.get(baseURL + "directory/home", config).then(function(response){
         console.log(response.data);
@@ -386,19 +312,7 @@ res.redirect("/addDirectory");
 });
 
 app.get("/addStream", function(req,res){
-
-    axios.get(baseURL + "directory/home", config).then(function(response){
-        res.render("addStream", {
-            homeDirectory : response.data
-        });
-
-
-    }).catch(function(error){
-        console.log("This is the error" + error);
-    });
-
-
-    // res.render("addStream.ejs");
+    res.render("addStream.ejs");
 })
 
 app.post("/addStream", function(req,res){
@@ -425,27 +339,27 @@ app.get("/addDevice", function(req,res){
 });
 
 
-// app.post("/addDevice", function(req,res){
-//     var data = req.body;
-//     console.log(data);
+app.post("/addDevice", function(req,res){
+    var data = req.body;
+    console.log(data);
 
-//     //gets added to MongoDB
-//     Stream.create({
-//         var_name: data.var_name,
-//         display_name: data.display_name,
-//         description: data.description,
-//         units: data.units,
-//         type: data.type
-//     }, function(error,data){
-//         if(error){
-//             console.log("There was a problem adding this device data");
-//         }else{
-//             console.log("added successfully");
-//             console.log(data);
-//         }
-//     })
-//     res.redirect("/list");
-// });
+    //gets added to MongoDB
+    Stream.create({
+        var_name: data.var_name,
+        display_name: data.display_name,
+        description: data.description,
+        units: data.units,
+        type: data.type
+    }, function(error,data){
+        if(error){
+            console.log("There was a problem adding this device data");
+        }else{
+            console.log("added successfully");
+            console.log(data);
+        }
+    })
+    res.redirect("/list");
+});
 
 
 
@@ -477,11 +391,13 @@ app.get('/test', function(req,res){
 });
 
 
-app.get("*", function(req,res){
-    res.send("Error! route does not exist!");
-})
+// Return error if user attempts to access endpoint that isnt defined
+app.get("*", function(request, response){
+    response.send(`Error! route does not exist! Please return home to http://${HOST}:${PORT}`);
+});
 
-
-app.listen(3000, function(req,res){
-    console.log("Online!");
+//  Bind application to port
+var server = app.listen(PORT, HOST, () => {
+    // Print address server is binding to
+    console.log(`Example app listening at http://${HOST}:${PORT}`);
 });
