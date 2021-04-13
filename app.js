@@ -265,6 +265,9 @@ app.get("/search", function(req,res){
     res.render("search.ejs");
 });
 
+app.get("/deleteParameter", function(req,res){
+    res.render("deleteParameter.ejs");
+});
 // const email = "jpotosme@ucmerced.edu";
 // const password= "JakesTesting_209";
 
