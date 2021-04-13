@@ -12,14 +12,59 @@ const HOST = process.env.HOST || "localhost";
 const express = require("express");
 const app = express();
 
-const axios = require('axios')
-const bodyParser = require("body-parser");
+// set EJS as templating engine
+app.set('view engine', 'ejs');
+
+// require axios for promise based architecture 
+const axios = require('axios');
+
+// set sweepapi base url
+const sweepAPI = require('./routes/sweepapi_auth');
+
+// import other endpoints/route files
+require('./routes/sweepapi_setup')(app); // import /setup endpoint
+require('./routes/sweepapi_streams')(app);
+require('./routes/sweepapi_directories')(app, axios); // import /addDirectory endpoints
+
+// homepage endpoint (site root directory)
+app.get("/", function(req, res){
+
+    // Redirect user to setup page if .env doesnt contain sweep api authentication
+    if(!(sweepAPI.getKey() || sweepAPI.getToken())){
+        res.redirect('/setup');
+    }
+
+    // Display Homepage 
+    axios.get(sweepAPI.url + "directory/home", sweepAPI.config).then(function(response){
+        res.render("homepage", {
+            homeDirectory : response.data
+        });
+
+
+    }).catch(function(error){
+        console.log("Error: " + error);
+    });
+});
+
+/*
+
+// Return error if user attempts to access endpoint that isnt defined
+app.get("*", function(request, response){
+    response.send(`Error! route does not exist! Please return home to http://${HOST}:${PORT}`);
+});
+*/
+
+//  Bind application to port
+var server = app.listen(PORT, HOST, () => {
+    // Print address server is binding to
+    console.log(`Example app listening at http://${HOST}:${PORT}`);
+});
+
 
 const mongoose = require("mongoose");
 
 const Directory = require('./models/directory.js');
 const Stream = require('./models/stream.js');
-const { render } = require('ejs');
 
 
 mongoose.connect(process.env.URI,{
@@ -39,44 +84,10 @@ const headers = {
     'data-raw': ''
 }
 
-const config = {
-    headers: {
-        'Content-Type': 'application/json',
-        'data-raw': ''
-    },
-                
-    auth:{
-        username: process.env.AUTH_KEY,
-        password: process.env.AUTH_TOKEN
-    }
-}
-
-
-var baseURL = "https://api.sweepapi.com/";
-
 
 //looking for static files inside public
 app.use(express.static(__dirname +"/public"));
 
-//middle ware 
-app.use(bodyParser.urlencoded({extended: true}));
-
-app.set("view engine", "ejs");
-
-
-app.get("/", function(req,res){
-
-    axios.get(baseURL + "directory/home", config).then(function(response){
-        res.render("homepage", {
-            homeDirectory : response.data
-        });
-
-
-    }).catch(function(error){
-        console.log("This is the error" + error);
-    });
-    // res.render("homepage.ejs");
-})
 
 app.get('/dbHome', function(req,res){
     Directory.find()
@@ -180,25 +191,15 @@ app.get('/list', function(req,res){
         }
     });
 
-
-    // res.render('list.ejs',{
-    //     currentList : list
-    // });
-
 });
 
 app.get("/search", function(req,res){
     res.render("search.ejs");
 });
 
-// const email = "jpotosme@ucmerced.edu";
-// const password= "JakesTesting_209";
-
-
-
 app.get('/apis', function(req,res){
 
-    axios.get(baseURL + "account/auth/api_key/", config).then(function(response){
+    axios.get(sweepAPI + "account/auth/api_key/", config).then(function(response){
         res.render("apis", {
             ActiveAPIs: response.data
         });
@@ -213,7 +214,7 @@ app.get('/apis', function(req,res){
 
 app.get('/directories', function(req,res){
 
-    axios.get(baseURL + "directory/home", config).then(function(response){
+    axios.get(sweepAPI + "directory/home", config).then(function(response){
         console.log(response.data);
         res.render("directories", {
             homeDirectory: response.data
@@ -227,21 +228,7 @@ app.get('/directories', function(req,res){
 
 });
 
-const currentStreamID = "015e4205-1977-417c-9dc3-b3425feebea6";
 
-app.get('/streams', function(req,res){
-
-    axios.get(baseURL+"stream/"+currentStreamID, config).then(function(response){
-        console.log(response.data);
-        // res.render("streams",{
-        //     streamIDs: response.data
-        // });
-    }).catch(function(error){
-        console.log("This is the error" + error);
-    });
-    
-    res.render("streams.ejs");
-});
 
 
 
@@ -250,7 +237,7 @@ app.get('/directoryData/:id', function(req,res){
     console.log(id);
     
 
-    axios.get(baseURL+"directory/" + id, config).then(function(response){
+    axios.get(sweepAPI +"directory/" + id, config).then(function(response){
         console.log(response.data);
         res.render("directoryData", {
             dirData: response.data
@@ -276,7 +263,7 @@ app.get("/streamData/:id", function(req,res){
     const id = req.params.id;
     console.log(id);
 
-    axios.get(baseURL+"stream/"+id, config)
+    axios.get(sweepAPI +"stream/"+id, config)
             .then(function(response){
                 console.log(response.data);
                 res.render("streamData",{
@@ -286,41 +273,19 @@ app.get("/streamData/:id", function(req,res){
             .catch( function(error){
                 console.log(error);
             })
-})
-
-
-app.get("/addDirectory", function(req,res){
-    res.render("addDirectory.ejs");
-})
-
-app.post("/addDirectory", async function(req,res){
-    var dirData = req.body;
-    console.log(dirData);
-
-
-    axios.post("https://api.sweepapi.com/directory",dirData, config)
-        .then(function(response){
-            console.log(response);
-            
-
-        }).catch(function(error){
-            console.log(error);
-        })
-
-res.redirect("/addDirectory");
-
 });
+
 
 app.get("/addStream", function(req,res){
     res.render("addStream.ejs");
-})
+});
 
 app.post("/addStream", function(req,res){
 
     var streamData = req.body;
     console.log(streamData);
 
-    axios.post(baseURL+ "stream", streamData,config)
+    axios.post(sweepAPI+ "stream", streamData,config)
     .then(function(response){
         console.log(response);
         
@@ -362,14 +327,13 @@ app.post("/addDevice", function(req,res){
 });
 
 
-
 app.get('/test', function(req,res){
 
     var searchTerm = req.query.searchterm;
     // var searchTerm = "ad9fe988-484d-43b4-83ce-4c7a8b10b6e8";
     console.log(searchTerm);
 
-    axios.get(baseURL + "account/auth/api_key/" + searchTerm, {
+    axios.get(sweepAPI + "account/auth/api_key/" + searchTerm, {
         headers: {
             'Content-Type': 'application/json',
             'data-raw': ''
@@ -385,19 +349,7 @@ app.get('/test', function(req,res){
         });
 
     }).catch(function(error){
-        console.log("This is the error" + error);
+        console.log("Error: " + error);
     });
 
-});
-
-
-// Return error if user attempts to access endpoint that isnt defined
-app.get("*", function(request, response){
-    response.send(`Error! route does not exist! Please return home to http://${HOST}:${PORT}`);
-});
-
-//  Bind application to port
-var server = app.listen(PORT, HOST, () => {
-    // Print address server is binding to
-    console.log(`Example app listening at http://${HOST}:${PORT}`);
 });
