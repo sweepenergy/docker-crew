@@ -24,7 +24,13 @@ const sweepAPI = require('./routes/sweepapi_auth');
 // import other endpoints/route files
 require('./routes/sweepapi_setup')(app); // import /setup endpoint
 require('./routes/sweepapi_streams')(app);
-require('./routes/sweepapi_directories')(app, axios); // import /addDirectory endpoints
+require('./routes/sweepapi_directories')(app); // import /addDirectory endpoints
+
+
+// db things 
+const Directory = require('./models/directory.js');
+const Stream = require('./models/stream.js');
+require('./routes/mongoose')(app, Directory, Stream); 
 
 // homepage endpoint (site root directory)
 app.get("/", function(req, res){
@@ -46,137 +52,6 @@ app.get("/", function(req, res){
     });
 });
 
-/*
-
-// Return error if user attempts to access endpoint that isnt defined
-app.get("*", function(request, response){
-    response.send(`Error! route does not exist! Please return home to http://${HOST}:${PORT}`);
-});
-*/
-
-//  Bind application to port
-var server = app.listen(PORT, HOST, () => {
-    // Print address server is binding to
-    console.log(`Example app listening at http://${HOST}:${PORT}`);
-});
-
-
-const mongoose = require("mongoose");
-
-const Directory = require('./models/directory.js');
-const Stream = require('./models/stream.js');
-
-
-mongoose.connect(process.env.URI,{
-   useNewUrlParser: true,
-   useUnifiedTopology: true
-}, function(error){
-    if(error){
-        console.log(error);
-    }else{
-        console.log("connected to the database");
-    }
-});
-
-
-const headers = {
-    'Content-Type': 'application/json',
-    'data-raw': ''
-}
-
-
-//looking for static files inside public
-app.use(express.static(__dirname +"/public"));
-
-
-app.get('/dbHome', function(req,res){
-    Directory.find()
-    .then((result) =>{
-        res.render("dbHome", {
-            directories: result
-        })
-    })
-    .catch((err) => {
-        console.log(err);
-    })
-
-});
-
-app.post('/dbHome', function(req,res){
-    const directory = new Directory(req.body);
-
-    directory.save()
-        .then((result) => {
-            res.redirect('/dbHome');
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-
-});
-
-app.get("/dbAddDirectory", function(req,res){
-    res.render("dbAddDirectory.ejs");
-})
-
-app.get("/dbHome/:id", function(req,res){
-    const id = req.params.id;
-    
-    Directory.findById(id, function(err, docs){
-        if(err){
-            console.log(err);
-        }
-        // else if(id != "style.css"){
-        else{
-            console.log("result: ", docs);
-            res.render('directoryDetails', {
-                    directory: docs 
-                })
-        }
-    });
-
-    // Directory.findById(id)
-    //     .then(result=>{
-            
-    //         console.log("rendering data...");
-
-    //         res.render('directoryDetails', {
-    //             directory: result  
-    //         })
-    //     })
-    //     .catch((err) =>{
-    //         console.log(err);
-    //     })
-        
-    console.log("Selected id: " + id);
-});
-
-//AJAX REQUEST
-app.delete('/dbHome/:id', function(req,res){
-    const id = req.params.if;
-
-    Directory.findByIdAndDelete(id)
-        .then((result) => {
-            res.json({ redirect: '/dbHome'})
-        })
-        .catch(err => console.log(err));
-})
-
-app.get('/login', function(req, res, next) { 
-
-
-    axios.get(baseURL + "account/verify_auth", config).then(function(response){
-        res.render("directories", {
-            homeDirectory: response.data
-        });
-
-
-    }).catch(function(error){
-        console.log("This is the error" + error);
-    });
-
-    res.render('login.ejs');
-}); 
 
 app.get('/list', function(req,res){
     
@@ -199,7 +74,7 @@ app.get("/search", function(req,res){
 
 app.get('/apis', function(req,res){
 
-    axios.get(sweepAPI + "account/auth/api_key/", config).then(function(response){
+    axios.get(sweepAPI.url + "account/auth/api_key/", sweepAPI.config).then(function(response){
         res.render("apis", {
             ActiveAPIs: response.data
         });
@@ -214,7 +89,7 @@ app.get('/apis', function(req,res){
 
 app.get('/directories', function(req,res){
 
-    axios.get(sweepAPI + "directory/home", config).then(function(response){
+    axios.get(sweepAPI.url + "directory/home", sweepAPI.config).then(function(response){
         console.log(response.data);
         res.render("directories", {
             homeDirectory: response.data
@@ -237,7 +112,7 @@ app.get('/directoryData/:id', function(req,res){
     console.log(id);
     
 
-    axios.get(sweepAPI +"directory/" + id, config).then(function(response){
+    axios.get(sweepAPI.url +"directory/" + id, sweepAPI.config).then(function(response){
         console.log(response.data);
         res.render("directoryData", {
             dirData: response.data
@@ -263,7 +138,7 @@ app.get("/streamData/:id", function(req,res){
     const id = req.params.id;
     console.log(id);
 
-    axios.get(sweepAPI +"stream/"+id, config)
+    axios.get(sweepAPI.url +"stream/"+id, sweepAPI.config)
             .then(function(response){
                 console.log(response.data);
                 res.render("streamData",{
@@ -285,7 +160,7 @@ app.post("/addStream", function(req,res){
     var streamData = req.body;
     console.log(streamData);
 
-    axios.post(sweepAPI+ "stream", streamData,config)
+    axios.post(sweepAPI.url + "stream", streamData, sweepAPI.config)
     .then(function(response){
         console.log(response);
         
@@ -333,7 +208,7 @@ app.get('/test', function(req,res){
     // var searchTerm = "ad9fe988-484d-43b4-83ce-4c7a8b10b6e8";
     console.log(searchTerm);
 
-    axios.get(sweepAPI + "account/auth/api_key/" + searchTerm, {
+    axios.get(sweepAPI.url + "account/auth/api_key/" + searchTerm, {
         headers: {
             'Content-Type': 'application/json',
             'data-raw': ''
@@ -352,4 +227,17 @@ app.get('/test', function(req,res){
         console.log("Error: " + error);
     });
 
+});
+
+
+// Return error if user attempts to access endpoint that isnt defined
+app.get("*", function(request, response){
+    response.send(`Error! route does not exist! Please return home to http://${HOST}:${PORT}`);
+});
+
+
+//  Bind application to port
+var server = app.listen(PORT, HOST, () => {
+    // Print address server is binding to
+    console.log(`Example app listening at http://${HOST}:${PORT}`);
 });

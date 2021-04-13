@@ -1,5 +1,5 @@
 // require axios for promise based architecture 
-//const axios = require('axios');
+const axios = require('axios');
 
 // require express for post request req.body's
 const express = require("express");
@@ -7,7 +7,7 @@ const express = require("express");
 // set sweepapi base url
 const sweepAPI = require('./sweepapi_auth');
 
-module.exports = function(app, axios){
+module.exports = function(app){
     // parse incoming Request Objects as a JSON Object
     app.use(express.urlencoded({extended: true}))
 
