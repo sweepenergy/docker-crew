@@ -130,12 +130,28 @@ app.get("/dbHome/:id", function(req,res){
     console.log("Selected id: " + id);
 });
 
+app.get('/dbStream', function(req,res){
+    res.render ('dbStream.ejs');
+    })
+
+app.post('/dbStream', function(req,res){
+
+    const stream = new Stream(req.body);
+    console.log(stream);
+    
+    stream.save()
+        .then((result) => {
+            res.redirect('/dbHome');
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+})
+
 app.get('/add-Streams', function(req,res){
     res.render ('add-Streams.ejs');
     })
 
-//////////// streams
-//req = require object, res = response object
 app.post('/add-Streams', function(req,res){
     
     const stream = new Stream(req.body);
@@ -148,34 +164,18 @@ app.post('/add-Streams', function(req,res){
         .catch((err) => {
             console.log(err);
         })
-    // const stream = new Stream({
-    //     var_name = 'modbus device #1',
-    //     display_name = 'testing device #1',
-    //     description = 'testing description',
-    //     units = 'degrees',
-    //     type = 'temperature'
-    // });
-
-    // //where it saves in DB 
-    // stream.save()
-    //     .then((result) => {
-    //         res.send(result)
-    //     })
-    //     .catch((err) => {                
-    //         console.log(err);
-    //     })
 })
 
 //displaying all stream, also displays latest update on top
-app.get('/streams', (req,res) => {
-    Streams.find().sort({createdAt: -1})
-        .then((result) => {
-            res.render('streams', {title: 'All Devices?', streams: result})
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-})
+// app.get('/streams', (req,res) => {
+//     Streams.find().sort({createdAt: -1})
+//         .then((result) => {
+//             res.render('streams', {title: 'All Devices?', streams: result})
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//         })
+// })
 
 // //get all devices from DB
 // app.get('/all-Streams', (req, res) =>{
@@ -226,6 +226,22 @@ app.get('/login', function(req, res, next) {
     res.render('login.ejs');
 }); 
 
+app.get('/newAccount', function(req, res, next) { 
+
+
+    axios.get(baseURL + "account/verify_auth", config).then(function(response){
+        res.render("directories", {
+            homeDirectory: response.data
+        });
+
+
+    }).catch(function(error){
+        console.log("This is the error" + error);
+    });
+
+    res.render('newAccount.ejs');
+}); 
+
 app.get('/list', function(req,res){
     
     Stream.find({}, function(error,streams){
@@ -250,6 +266,9 @@ app.get("/search", function(req,res){
     res.render("search.ejs");
 });
 
+app.get("/deleteParameter", function(req,res){
+    res.render("deleteParameter.ejs");
+});
 // const email = "jpotosme@ucmerced.edu";
 // const password= "JakesTesting_209";
 

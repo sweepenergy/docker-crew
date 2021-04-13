@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Create New Account</title>
   <link rel="stylesheet" href="style.css">
-  <script defer src="login.js"></script>
+  <script defer src="newAccount.js"></script>
 </head>
 
 <body>
@@ -17,13 +17,17 @@
       <p id="login-error-msg">Invalid username <span id="error-msg-second-line">and/or password</span></p>
     </div> -->
     
-    <form id="login-form">
+    <form id="signup-form">
       <div class="mb-3">
-        <label for="exampleDropdownFormEmail" class="form-label">Username</label>
-        <input type="email" class="form-control" id="exampleDropdownFormEmail" placeholder="Username">
+        <label for="exampleDropdownFormEmail" class="form-label">Email</label>
+        <input type="email" class="form-control" id="exampleDropdownFormEmail" placeholder="Email">
       </div>
       <div class="mb-3">
         <label for="exampleDropdownFormPassword" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleDropdownFormPassword" placeholder="Password">
+      </div>
+      <div class="mb-3">
+        <label for="exampleDropdownFormPassword" class="form-label">Verify password</label>
         <input type="password" class="form-control" id="exampleDropdownFormPassword" placeholder="Password">
       </div>
       <div class="mb-3">
