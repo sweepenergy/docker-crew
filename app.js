@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const Directory = require('./models/directory.js');
+const Stream = require('./models/stream.js');
 const { render } = require('ejs');
 
 
@@ -44,7 +45,7 @@ var baseURL = "https://api.sweepapi.com/";
 
 
 //looking for static files inside public
-app.use(express.static(__dirname +"/public"));
+app.use(express.static(__dirname + "/public"));
 
 //middle ware 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -128,6 +129,75 @@ app.get("/dbHome/:id", function(req,res){
     console.log("Selected id: " + id);
 });
 
+app.get('/dbStream', function(req,res){
+    res.render ('dbStream.ejs');
+    })
+
+app.post('/dbStream', function(req,res){
+
+    const stream = new Stream(req.body);
+    console.log(stream);
+    
+    stream.save()
+        .then((result) => {
+            res.redirect('/dbHome');
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+})
+
+app.get('/add-Streams', function(req,res){
+    res.render ('add-Streams.ejs');
+    })
+
+app.post('/add-Streams', function(req,res){
+    
+    const stream = new Stream(req.body);
+    console.log(stream);
+    
+    stream.save()
+        .then((result) => {
+            res.redirect('/dbHome');
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+})
+
+//displaying all stream, also displays latest update on top
+// app.get('/streams', (req,res) => {
+//     Streams.find().sort({createdAt: -1})
+//         .then((result) => {
+//             res.render('streams', {title: 'All Devices?', streams: result})
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//         })
+// })
+
+// //get all devices from DB
+// app.get('/all-Streams', (req, res) =>{
+//     Stream.find();
+//         .then((result) => {
+//             res.send(result);
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//         });
+// });
+
+// //get 1 device
+// app.get('/single-stream', (req, res) => {
+//     Stream.findById('')
+//     .then((result) => {
+//         res.send(result);
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });
+// })
+
 //AJAX REQUEST
 app.delete('/dbHome/:id', function(req,res){
     const id = req.params.if;
@@ -153,6 +223,22 @@ app.get('/login', function(req, res, next) {
     });
 
     res.render('login.ejs');
+}); 
+
+app.get('/newAccount', function(req, res, next) { 
+
+
+    axios.get(baseURL + "account/verify_auth", config).then(function(response){
+        res.render("directories", {
+            homeDirectory: response.data
+        });
+
+
+    }).catch(function(error){
+        console.log("This is the error" + error);
+    });
+
+    res.render('newAccount.ejs');
 }); 
 
 app.get('/list', function(req,res){
@@ -199,7 +285,7 @@ app.get('/apis', function(req,res){
     // res.render("apis.ejs");
 });
 
-app.get('/directories', function(req,res){
+app.get('/adddirectories', function(req,res){
 
     axios.get(baseURL + "directory/home", config).then(function(response){
         console.log(response.data);
@@ -300,7 +386,19 @@ res.redirect("/addDirectory");
 });
 
 app.get("/addStream", function(req,res){
-    res.render("addStream.ejs");
+
+    axios.get(baseURL + "directory/home", config).then(function(response){
+        res.render("addStream", {
+            homeDirectory : response.data
+        });
+
+
+    }).catch(function(error){
+        console.log("This is the error" + error);
+    });
+
+
+    // res.render("addStream.ejs");
 })
 
 app.post("/addStream", function(req,res){

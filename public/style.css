@@ -32,7 +32,7 @@
 #newAccountBtn{
     background-color: #6a008a;
     color:white;
-    /* font-weight: bold; */
+    font-weight: bold;
 }
 
 #deleteParameterBtn{
