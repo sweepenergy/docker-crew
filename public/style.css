@@ -41,19 +41,56 @@
     font-weight: bold;
 }
 
-#deleteParameterBtn{
+/* #deleteParameterBtn{
     background-color: rgb(212, 48, 19);
     color:white;
     font-weight: bold;
+} */
+a.badge{
+  color:rgb(175, 2, 2);
 }
 
-/*body{
-  background-color: rgb(217, 180, 255);
-}
+body{
+  background-color:   #000000;
+  /* background-image: linear-gradient(black, #707070);  */
+  /* background-image: linear-gradient(to bottom right, rgb(143, 6, 255), rgb(205, 145, 255));  */ 
+  /* background-image: linear-gradient(to bottom right, #892CDC, #BC6FF1) */
+} 
+
 
 div.card-body{
   background-color: rgb(235, 211, 255);
-} */
+
+}  
+
+div.table-responsive{
+  /* background-color: #2b2a2a; */
+  border-radius: 5%;
+  /* background-image: #19191c; */
+  background-color: rgb(60, 59, 59);
+}
+
+th, td{
+  color: rgb(196, 196, 196);
+}
+
+table, tr {
+  border: 1px inset black;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a.nav-link{
+  color:white;
+}
+
+nav.navbar{
+  background-image: linear-gradient(to bottom right,#3ca372,#3fae7b); 
+}
+
+div.position-sticky{
+  background-image: linear-gradient(to bottom right, #3ca372,#3fae7b); 
+}
 
 .btn{
   background-color:#81219e;
