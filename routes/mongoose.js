@@ -1,7 +1,13 @@
+//---IMPORT/REQUIRE NECESSARY MODULES HERE---//
 const mongoose = require("mongoose");
-const express = require("express");
+const express = require("express")
+const Directory = require('../models/directory.js');
 
-module.exports = function(app, Directory, Stream){
+//---ROUTES TO EXPORT---//
+
+
+module.exports = function(app){
+
     mongoose.connect(process.env.URI,{
         useNewUrlParser: true,
         useUnifiedTopology: true

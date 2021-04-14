@@ -12,40 +12,42 @@ const HOST = process.env.HOST || "localhost";
 const express = require("express");
 const app = express();
 
+// parse incoming Request Objects as a JSON Object for post requests
+app.use(express.urlencoded({extended: true}))
+
 // set EJS as templating engine
 app.set('view engine', 'ejs');
 
 // require axios for promise based architecture 
 const axios = require('axios');
 
-// set sweepapi base url
-const sweepAPI = require('./routes/sweepapi_auth');
+// import sweepAuth module Sweep API Authentication from env variables + sets api base url
+const sweepAPI = require('./routes/sweepapiAuth');
 
 // import other endpoints/route files
-require('./routes/sweepapi_setup')(app); // import /setup endpoint
-require('./routes/sweepapi_streams')(app);
-require('./routes/sweepapi_directories')(app); // import /addDirectory endpoints
-
+require('./routes/sweepapiSetup')(app); // import /setup endpoint
+require('./routes/sweepapiStream')(app);
+require('./routes/sweepapiDirectory')(app); // import /addDirectory endpoints
+require('./routes/device')(app); 
 
 // db things 
-const Directory = require('./models/directory.js');
-const Stream = require('./models/stream.js');
-require('./routes/mongoose')(app, Directory, Stream); 
+require('./routes/mongoose')(app); 
 
 // homepage endpoint (site root directory)
 app.get("/", function(req, res){
 
-    // Redirect user to setup page if .env doesnt contain sweep api authentication
+    // Redirect user to setup page if sweep api authentication undefined
     if(!(sweepAPI.getKey() || sweepAPI.getToken())){
         res.redirect('/setup');
     }
+
+    // STREATCH GOAL: Check app user login (non Sweep API)
 
     // Display Homepage 
     axios.get(sweepAPI.url + "directory/home", sweepAPI.config).then(function(response){
         res.render("homepage", {
             homeDirectory : response.data
         });
-
 
     }).catch(function(error){
         console.log("Error: " + error);
@@ -70,135 +72,6 @@ app.get('/list', function(req,res){
 
 app.get("/search", function(req,res){
     res.render("search.ejs");
-});
-
-app.get('/apis', function(req,res){
-
-    axios.get(sweepAPI.url + "account/auth/api_key/", sweepAPI.config).then(function(response){
-        res.render("apis", {
-            ActiveAPIs: response.data
-        });
-        
-
-    }).catch(function(error){
-        console.log("This is the error" + error);
-    });
-
-    // res.render("apis.ejs");
-});
-
-app.get('/directories', function(req,res){
-
-    axios.get(sweepAPI.url + "directory/home", sweepAPI.config).then(function(response){
-        console.log(response.data);
-        res.render("directories", {
-            homeDirectory: response.data
-        });
-
-
-    }).catch(function(error){
-        console.log("This is the error" + error);
-    });
-
-
-});
-
-
-
-
-
-app.get('/directoryData/:id', function(req,res){
-    const id = req.params.id;
-    console.log(id);
-    
-
-    axios.get(sweepAPI.url +"directory/" + id, sweepAPI.config).then(function(response){
-        console.log(response.data);
-        res.render("directoryData", {
-            dirData: response.data
-        })
-    }).catch( function(error){
-        console.log(error);
-    })
-    
-
-    // res.render("streamData.ejs", {SD:localStreams});
-})
-
-// axios.get(baseURL+"stream/"+currentStreamID, config).then(function(response){
-    //     console.log(response.data);
-    //     // res.render("streams",{
-    //     //     streamIDs: response.data
-    //     // });
-    // }).catch(function(error){
-    //     console.log("This is the error" + error);
-    // });
-
-app.get("/streamData/:id", function(req,res){
-    const id = req.params.id;
-    console.log(id);
-
-    axios.get(sweepAPI.url +"stream/"+id, sweepAPI.config)
-            .then(function(response){
-                console.log(response.data);
-                res.render("streamData",{
-                    streamData:response.data
-                })
-            })
-            .catch( function(error){
-                console.log(error);
-            })
-});
-
-
-app.get("/addStream", function(req,res){
-    res.render("addStream.ejs");
-});
-
-app.post("/addStream", function(req,res){
-
-    var streamData = req.body;
-    console.log(streamData);
-
-    axios.post(sweepAPI.url + "stream", streamData, sweepAPI.config)
-    .then(function(response){
-        console.log(response);
-        
-
-    }).catch(function(error){
-        console.log(error);
-    })
-
-    res.redirect("/addStream")
-});
-
-
-
-app.get("/addDevice", function(req,res){
-    res.render("addDevice.ejs");
-});
-
-
-app.post("/addDevice", function(req,res){
-    var data = req.body;
-    console.log(data);
-
-    //gets added to MongoDB
-    Stream.create({
-        var_name: data.var_name,
-        display_name: data.display_name,
-        description: data.description,
-        units: data.units,
-        type: data.type
-    }, function(error,data){
-        if(error){
-            console.log("There was a problem adding this device data");
-        }else{
-            console.log("added successfully");
-            console.log(data);
-        }
-    })
-    res.redirect("/list");
 });
 
 
