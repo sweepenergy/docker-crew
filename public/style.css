@@ -90,7 +90,7 @@ a.nav-link{
 
 nav.navbar{
   background-image: linear-gradient(to bottom right,#3ca372,#3fae7b); 
-  border-radius: 10%;
+  border-radius: 5%;
 }
 
 div.position-sticky{
@@ -147,6 +147,8 @@ div.position-sticky{
     -webkit-transition: .4s;
     transition: .4s;
   }
+
+  .div.drop
   
   input:checked + .slider {
     background-color: #2196F3;
