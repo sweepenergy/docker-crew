@@ -35,8 +35,8 @@ module.exports = function(app){
                 //report sucess
                 console.log(`Connected to device ${data.stream_id} on ${data.host_ip}:${data.port}`)
                 server.readHoldingRegisters(parseInt(data.register), 2, function(error, data){
-                    console.log(error);
-                    console.log(data);
+                    //console.log(error);
+                    console.log(data.buffer.readFloatBE());
                 });
             }).catch(function(e) {
                 //print error if errors out
