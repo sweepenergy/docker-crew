@@ -8,7 +8,8 @@ const sweepAPI = require('./sweepapiAuth');
 const Stream = require('../models/stream.js');
 
 //--IMPORT SUPPORTED PROTOCOLS--
-require('../models/protocols/modbusSerial');
+//const modbusSerial = require('../models/protocols/modbusSerial');
+var ModbusRTU = require("modbus-serial");
 require('../models/protocols/modbusTCP');
 
 
@@ -25,10 +26,24 @@ module.exports = function(app){
         var data = req.body;
         console.log(data);
 
-    
+        var server = new ModbusRTU()
+        server.connectTCP(data.host_ip, {port: data.port})
+            .then(function(){
+                server.setID(parseInt(data.device_id,10));
+                server.setTimeout(1000);
+            }).then(function(){
+                //report sucess
+                console.log(`Connected to device ${data.stream_id} on ${data.host_ip}:${data.port}`)
+            }).catch(function(e) {
+                //print error if errors out
+                console.log(e.message); 
+            });
+        
+
+        /*
         //Add Device to MongoDB
         Stream.create({
-            var_name: data.var_name,
+            var_name: data.var_name,ß
             display_name: data.display_name,
             description: data.description,
             units: data.units,
@@ -41,7 +56,9 @@ module.exports = function(app){
                 console.log(data);
             }
         })
+
         res.redirect("/list");
+        */
     });
 
 };

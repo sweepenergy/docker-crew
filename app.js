@@ -45,6 +45,7 @@ app.get("/", function(req, res){
 
     // Display Homepage 
     axios.get(sweepAPI.url + "directory/home", sweepAPI.config).then(function(response){
+        //console.log(response.data);
         res.render("homepage", {
             homeDirectory : response.data
         });

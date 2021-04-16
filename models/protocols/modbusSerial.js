@@ -7,13 +7,15 @@ const serializer = new v8.Serializer();
 
 
 //--EXPORT CLASS METHODS--//
-modules.export = {
+module.export = {
+    
     new: () => {
-        server = new ModbusRTU();
+        return new ModbusRTU();
     },
 
     //Connect to device function
     connect: (address, port, id) => {
+        server = new ModbusRTU();
         server.connectTCP(address, {port: port})
             .then(function(){
                 server.setID(id);
@@ -30,25 +32,23 @@ modules.export = {
 
     readRegister: async (register, format) => {
         //check if register is holding register (btween 40001 and 49999)
-        if(true){
+        var buffer = null;
+        if(true){ //check if register is a holding register
             // check if register is float/double or int
-            if (float){
+            if (format.includes(float) || format.includes(double)){
                 //read as float
                 server.readHoldingRegisters(register, 2, function(error, data){
-                    console.log(data.buffer.readFloatBE());
+                    buffer = data.buffer;
                 });
-            }else if (double){
+            }else{
                 server.readHoldingRegisters(register, 1, function(error, data){
-                    //read as double
-                    console.log(data.data);
-                });
-            }else if (int){
-                server.readHoldingRegisters(register, 1, function(error, data){
-                    //read as int
-                    console.log(data.data);
+                    buffer = data.buffer;
                 });
             }
-           
+            
+            return buffer;
+
+            //TODO: check if format is int/float/double and LE/BE
 
         }
 
