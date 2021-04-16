@@ -34,10 +34,15 @@ module.exports = function(app){
             }).then(function(){
                 //report sucess
                 console.log(`Connected to device ${data.stream_id} on ${data.host_ip}:${data.port}`)
+                server.readHoldingRegisters(parseInt(data.register), 2, function(error, data){
+                    console.log(error);
+                    console.log(data);
+                });
             }).catch(function(e) {
                 //print error if errors out
                 console.log(e.message); 
             });
+        
         
 
         /*
