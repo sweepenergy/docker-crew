@@ -1,6 +1,10 @@
 <%- include("partials/header"); %>
 
 <form action="/addDevice" method="POST">
+    <label for="type">Protocol:</label>
+    <select name="type">
+        <option value="int">Modbus TCP/IP</option>
+    </select>
     <div class="mb-3">
       <label class="form-label">Stream ID</label>
       <input type="text" class="form-control" name="stream_id">
@@ -13,7 +17,7 @@
     </div>
     <div class="mb-3">
         <label class="form-label">Device ID</label>
-        <input type="number" class="form-control" name="device_id" step="1">
+        <input type="number" class="form-control" name="device_id" step="1" min="1">
         
     </div>
     <div class="mb-3">
