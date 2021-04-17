@@ -166,38 +166,7 @@ app.post('/add-Streams', function(req,res){
         })
 })
 
-//displaying all stream, also displays latest update on top
-// app.get('/streams', (req,res) => {
-//     Streams.find().sort({createdAt: -1})
-//         .then((result) => {
-//             res.render('streams', {title: 'All Devices?', streams: result})
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         })
-// })
 
-// //get all devices from DB
-// app.get('/all-Streams', (req, res) =>{
-//     Stream.find();
-//         .then((result) => {
-//             res.send(result);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         });
-// });
-
-// //get 1 device
-// app.get('/single-stream', (req, res) => {
-//     Stream.findById('')
-//     .then((result) => {
-//         res.send(result);
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     });
-// })
 
 //AJAX REQUEST
 app.delete('/dbHome/:id', function(req,res){
@@ -289,7 +258,9 @@ app.get('/apis', function(req,res){
     // res.render("apis.ejs");
 });
 
-app.get('/adddirectories', function(req,res){
+
+
+app.get('/directories', function(req,res){
 
     axios.get(baseURL + "directory/home", config).then(function(response){
         console.log(response.data);
@@ -305,7 +276,7 @@ app.get('/adddirectories', function(req,res){
 
 });
 
-const currentStreamID = "015e4205-1977-417c-9dc3-b3425feebea6";
+// const currentStreamID = "015e4205-1977-417c-9dc3-b3425feebea6";
 
 app.get('/streams', function(req,res){
 
