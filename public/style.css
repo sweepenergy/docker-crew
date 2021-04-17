@@ -21,7 +21,9 @@
   /*color:rgba(21, 241, 230, 0.808);*/
   color: white;
   font-weight: bold;
+  
 }
+
 
 #ExitUIBtn{
     background-color: rgb(0, 100, 45);
@@ -65,6 +67,10 @@ body{
   /* background-image: linear-gradient(to bottom right, #892CDC, #BC6FF1) */
 } 
 
+label{
+  color: white;
+}
+
 label.form-label{
   color: white;
 }
@@ -72,6 +78,7 @@ div.card-body{
   color: black;
 
 }  
+
 
 div.table-responsive{
   /* background-color: #2b2a2a; */
@@ -153,6 +160,8 @@ div.position-sticky{
     -webkit-transition: .4s;
     transition: .4s;
   }
+
+  .div.drop
   
   input:checked + .slider {
     background-color: #2196F3;

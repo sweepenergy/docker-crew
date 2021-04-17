@@ -5,28 +5,11 @@
 
 
 
-
+<!-- 
     <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Directory ID
-      </button>
-
-     
-      <% for(i in homeDirectory){ %>
-        <% var temp = homeDirectory.directory %>
-         
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-         
-          <% for( var j = 0; j < temp.length; j++) { %>
-          <a class="dropdown-item" href="#"> <%= temp[j].id %></a>
-          <% } %>  
-          <% break %>
-        
-        </div>
-        
-    <% } %>
       
-    </div>
+    </div> -->
+
 
    
 <div class="container-fluid">
@@ -75,9 +58,21 @@
       <form action="/addStream" method="POST">
 
         <div class="mb-3">
-          <label class="form-label">Selected Directory</label>
-          <input type="text" class="form-control" name="directory_id">
+          <!-- <label class="form-label">Selected Directory</label>
+          <input type="text" class="form-control" name="directory_id"> -->
+          <% for(i in homeDirectory){ %>
+            <% var temp = homeDirectory.directory %>
+          <label for="type">Directory ID:</label>
+          <select name="type">
+            <% for( var j = 0; j < temp.length; j++) { %>
+              <option value="int"><%= temp[j].id %></option>
+              <% } %>  
+              <% break %>
+          </select>
+          <% } %>
+
         </div>
+        
 
 
         <div class="mb-3">
