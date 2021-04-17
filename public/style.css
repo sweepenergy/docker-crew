@@ -67,6 +67,10 @@ body{
   /* background-image: linear-gradient(to bottom right, #892CDC, #BC6FF1) */
 } 
 
+label{
+  color: white;
+}
+
 label.form-label{
   color: white;
 }
@@ -74,6 +78,7 @@ div.card-body{
   color: black;
 
 }  
+
 
 div.table-responsive{
   /* background-color: #2b2a2a; */
