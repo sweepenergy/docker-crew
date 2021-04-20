@@ -11,6 +11,9 @@ const Stream = require('./models/stream.js');
 const { render } = require('ejs');
 
 
+const obj = require('Streams.ejs');
+const fs = require('fs');
+
 mongoose.connect(process.env.URI,{
    useNewUrlParser: true,
    useUnifiedTopology: true
@@ -358,6 +361,41 @@ app.post("/addDirectory", async function(req,res){
 
 res.redirect("/addDirectory");
 
+});
+
+
+app.get('/', (req,res) =>{
+    
+})
+
+// for sending JSON (use sendFile so we can make updates to JSON)
+app.get('/streamSearch', (req, res) => {
+    res.header("Content-Type",'application/json');
+    res.sendFile(path.join(__dirname, 'Streams.json'));
+})
+
+//for looking up certain devices
+app.post('/', function (req, res) {
+    var obj;
+    fs.readFile('./object.json', 'utf8', function (err, data) {
+        if (err) throw err;
+        obj = JSON.parse(data);
+        console.log(obj["placeholder"]);
+        console.log(obj["placeholder"]);
+        console.log(obj["placeholder"]);
+        console.log(obj["placeholder"]);
+        console.log(obj["placeholder"]);
+    });
+    res.render(
+        'disp.ejs',
+        { 
+            var_name: obj["placeholder"],
+            display_name: obj["placeholder"],
+            description: obj["placeholder"],
+            units: obj["placeholder"],
+            type: obj["placeholder"]
+
+        });
 });
 
 app.get("/addStream", function(req,res){
