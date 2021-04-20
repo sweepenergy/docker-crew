@@ -11,7 +11,7 @@ const Stream = require('./models/stream.js');
 const { render } = require('ejs');
 
 
-const obj = require('Streams.ejs');
+const obj = require('./Streams.json');
 const fs = require('fs');
 
 mongoose.connect(process.env.URI,{
@@ -281,19 +281,19 @@ app.get('/directories', function(req,res){
 
 // const currentStreamID = "015e4205-1977-417c-9dc3-b3425feebea6";
 
-app.get('/streams', function(req,res){
+// app.get('/streams', function(req,res){
 
-    axios.get(baseURL+"stream/"+currentStreamID, config).then(function(response){
-        console.log(response.data);
-        // res.render("streams",{
-        //     streamIDs: response.data
-        // });
-    }).catch(function(error){
-        console.log("This is the error" + error);
-    });
+//     axios.get(baseURL+"stream/"+currentStreamID, config).then(function(response){
+//         console.log(response.data);
+//         // res.render("streams",{
+//         //     streamIDs: response.data
+//         // });
+//     }).catch(function(error){
+//         console.log("This is the error" + error);
+//     });
     
-    res.render("streams.ejs");
-});
+//     res.render("streams.ejs");
+// });
 
 
 
