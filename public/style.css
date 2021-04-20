@@ -52,6 +52,11 @@
 h1, h2{
   color:white;
 }
+h2{
+  margin-left: 20px;
+  padding-top: 20px;
+}
+
 main.col-md-9{
  color: white;
 }
@@ -62,9 +67,6 @@ a.badge{
 
 body{
   background-color:   #000000;
-  /* background-image: linear-gradient(black, #707070);  */
-  /* background-image: linear-gradient(to bottom right, rgb(143, 6, 255), rgb(205, 145, 255));  */ 
-  /* background-image: linear-gradient(to bottom right, #892CDC, #BC6FF1) */
 } 
 
 label{
@@ -78,6 +80,14 @@ div.card-body{
   color: black;
 
 }  
+
+button.btn{
+  color: white;
+}
+
+button.btn.btn-outline-danger{
+  background-color: red;
+}
 
 
 div.table-responsive{
@@ -99,22 +109,32 @@ table, tr {
 
 a.nav-link{
   color:white;
+  font-size: 20px;
+}
+
+a.navbar-brand{
+  font-size: 30px;
 }
 
 nav.navbar{
-  background-image: linear-gradient(to bottom right,#3ca372,#3fae7b); 
-  border-radius: 30px 30px;
+  background-image: linear-gradient(to bottom right,#3ca372,#7be8b5); 
+  border-radius: 20px 20px;
 }
 
 div.position-sticky{
   background-image: linear-gradient(to bottom right, #3ca372,#3fae7b); 
   border-radius: 20px 20px;
+  /* margin-left: 0px; */
+  /* padding-top: 10px; */
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
 }
 
 .btn{
-  /* background-color:rgb(0, 100, 45); */
+  background-color:rgb(0, 100, 45);
     /* color:white; */
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 #streamData-id{
   text-align: center;
@@ -123,65 +143,63 @@ div.position-sticky{
 /* Link used for the switch css: https://www.w3schools.com/howto/howto_css_switch.asp*/
 /* The switch - the box around the slider */
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
-  .div.drop
-  
-  input:checked + .slider {
-    background-color: #2196F3;
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
