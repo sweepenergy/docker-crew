@@ -33,7 +33,7 @@ module.exports = function(app){
                 server.setTimeout(1000);
             }).then(function(){
                 //report sucess
-                console.log(`Connected to device ${data.stream_id} on ${data.host_ip}:${data.port}`)
+                console.log(`Connected device ${data.device_name} to stream ${data.stream_id} on ${data.host_ip}:${data.port}`)
                 server.readHoldingRegisters(parseInt(data.register), 2, function(error, data){
                     //console.log(error);
                     console.log(data.buffer.readFloatBE());
