@@ -42,7 +42,18 @@ module.exports = function(app){
                 //print error if errors out
                 console.log(e.message); 
             });
-        
+        //TODO:
+        //Json object with timestap + sample
+        /*
+        var x = {
+            timestamp: '',
+            sample: data.buffer.readFloatBE().toString
+        }; ^ we can turn data.buffer.... to a var
+
+        JSON.stringify(x);
+
+        */
+        //Call api post 
         
 
         /*
