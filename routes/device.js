@@ -39,9 +39,7 @@ module.exports = function(app){
                 server.setTimeout(1000);
             }).then(function(){
                 //report sucess
-                console.log(`Connected to device ${data.stream_id} on ${data.host_ip}:${data.port}`)
-
-                //readHoldingRegisters(addr, len)
+                console.log(`Connected device ${data.device_name} to stream ${data.stream_id} on ${data.host_ip}:${data.port}`)
                 server.readHoldingRegisters(parseInt(data.register), 2, function(error, data){
                     //console.log(error);
                     console.log(data.buffer.readFloatBE());
@@ -101,7 +99,18 @@ module.exports = function(app){
                 //print error if errors out
                 console.log(e.message); 
             });
-        
+        //TODO:
+        //Json object with timestap + sample
+        /*
+        var x = {
+            timestamp: '',
+            sample: data.buffer.readFloatBE().toString
+        }; ^ we can turn data.buffer.... to a var
+
+        JSON.stringify(x);
+
+        */
+        //Call api post 
         
 
         /*
