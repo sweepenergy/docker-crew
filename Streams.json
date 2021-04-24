@@ -1,0 +1,24 @@
+[
+    {
+        "var_name": "voltage_b",
+        "display_name": "Voltage b",
+        "description": "Voltage b amps",
+        "units": "volts",
+        "type": "number"
+    },
+    {
+        "var_name": "current_b",
+        "display_name": "Current b",
+        "description": "Current b amps",
+        "units": "amps",
+        "type": "number"
+    },
+    {
+        "var_name": "log_maintenance",
+        "display_name": "Maintenance Log",
+        "description": "Maintenance Log over time",
+        "units": "unitless",
+        "type": "text"
+    }
+]
+

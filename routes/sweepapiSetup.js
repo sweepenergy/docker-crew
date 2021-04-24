@@ -2,8 +2,25 @@
 // require axios for promise based architecture 
 const axios = require('axios');
 
+//file writing
+const fs = require('fs');
+// require('dotenv').config();
+const {
+    parse,
+    stringify
+} = require('envfile');
+
+const envPath = '.env'
+
+// console.log(parse(envPath))
+// let parsedFile = parse(envPath);
+// parsedFile.NEW_VAR = 'newVariableValue'
+// fs.appendFileSync(envPath, stringify(parsedFile)) 
+// console.log(stringify(parsedFile))
+
 // import sweepAuth module Sweep API Authentication from env variables + sets api base url
 const sweepAPI = require('./sweepapiAuth');
+
 
 
 //---ROUTES TO EXPORT---//
@@ -30,6 +47,7 @@ module.exports = function(app){
 
     // Display UI for SweepAPI login
     app.get('/login', function(req,res){
+
         res.render("login");
     });
 
@@ -49,6 +67,101 @@ module.exports = function(app){
         //return user to homepage
         res.render('/');
     }); 
+
+    //used this post request to make valid verification check, one above wasn't nice
+
+
+    app.post('/verification_Check', function(req, res) { 
+
+        var accountData = req.body;
+
+        async function f() {
+            axios.post(sweepAPI.url + "account/auth", accountData, sweepAPI.config)
+            .then(function(response){
+                // console.log(response.data);
+                if(response.data.status === "error_not_valid_auth" ){
+                    
+                    res.redirect('/login');
+                }
+                else{
+                    let parsedFile = parse(envPath);
+
+                    console.log(response.data.session_id)
+                    console.log(response.data.session_token)
+                    parsedFile.AUTH_KEY = response.data.session_id
+                    parsedFile.AUTH_TOKEN = response.data.session_token
+                    parsedFile.fingerprint = response.data.session_id
+                    parsedFile.token = response.data.session_token
+                    
+                    fs.appendFileSync(envPath, stringify(parsedFile)) 
+
+                    fs.appendFile('SessionData.txt', "\n"+response.data.session_id +":"+ response.data.session_token, function(err){
+                        if(err){
+                            return console.log(err);
+                        }
+                        console.log("written successfully");
+                    })
+
+                    res.redirect('/');
+                    
+                    // res.render("directories", {
+                    //     homeDirectory: response.data
+        
+                        
+                    // });
+                    // res.redirect('/');
+                }
+
+
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        }
+        // axios.post(sweepAPI.url + "account/auth", accountData, sweepAPI.config)
+        // .then(function(response){
+        //     // console.log(response.data);
+        //     if(response.data.status === "error_not_valid_auth" ){
+                
+        //         res.redirect('/login');
+        //     }
+        //     else{
+        //         let parsedFile = parse(envPath);
+
+        //         console.log(response.data.session_id)
+        //         console.log(response.data.session_token)
+        //         parsedFile.AUTH_KEY = response.data.session_id
+        //         parsedFile.AUTH_TOKEN = response.data.session_token
+        //         parsedFile.fingerprint = response.data.session_id
+        //         parsedFile.token = response.data.session_token
+                
+        //         fs.appendFileSync(envPath, stringify(parsedFile)) 
+
+        //         fs.appendFile('SessionData.txt', "\n"+response.data.session_id +":"+ response.data.session_token, function(err){
+        //             if(err){
+        //                 return console.log(err);
+        //             }
+        //             console.log("written successfully");
+        //         })
+
+        //         res.redirect('/');
+                
+        //         // res.render("directories", {
+        //         //     homeDirectory: response.data
+    
+                    
+        //         // });
+        //         // res.redirect('/');
+        //     }
+
+
+        // })
+        // .catch(function(error){
+        //     console.log(error);
+        // });
+
+
+    });
 
     //--STREATCH GOAL--/
     app.get('/createAccount', function(req, res){
