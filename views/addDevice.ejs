@@ -21,7 +21,7 @@
 
     <div class="container">
   
-    <form action="/addDevice" method="POST">
+    <form id="multi-step-form" action="/addDevice" method="POST">
 
       <ol id="progressbar">
         <li class="active">Protocol</li>
@@ -36,12 +36,8 @@
             <option value="int">Modbus TCP/IP</option>
         </select>
 
-        <div style="overflow:auto;">
-            <div style="float:right;">
-              <button type="button" id="prevBtn" onclick="nextStep(-1)">Previous</button>
-              <button type="button" id="nextBtn" onclick="nextStep(1)">Next</button>
-            </div>
-        </div>
+        <input type="button" class="prevBtn" value="Previous" >
+        <input type="button" class="nextBtn" value="Next" >
 
       </fieldset>
         
@@ -73,24 +69,19 @@
               
         </div>
 
-        <div style="overflow:auto;">
-              <div style="float:right;">
-                <button type="button" id="prevBtn" onclick="nextStep(-1)">Previous</button>
-                <button type="button" id="nextBtn" onclick="nextStep(1)">Next</button>
-              </div>
-        </div>  
-      </fieldset>
-        <label for="type">Monitored Parameters</label>
+        <input type="button" class="prevBtn" value="Previous" >
+        <input type="button" class="nextBtn" value="Next" >
 
-        <fieldset class="step" id="add-params">
-            <%- include("forms/addParam"); %>
-            <div style="overflow:auto;">
-              <div style="float:right;">
-                <button type="button" id="prevBtn" onclick="nextStep(-1)">Previous</button>
-                <button type="button" id="nextBtn" onclick="nextStep(1)">Next</button>
-              </div>
-          </div>
-        </fieldset>
+      </fieldset>
+
+      <fieldset class="step" id="add-params">
+        <label for="type">Monitored Parameters</label>
+        <%- include("forms/addParam"); %>
+          
+        <input type="button" class="prevBtn" value="Previous" >
+        <input type="button" class="nextBtn" value="Next" >
+          
+      </fieldset>
 
       </form>
 
@@ -101,7 +92,7 @@
         //field set properties:
         var left, opacity, scale;
 
-        var animating; //Checks if currently in animation to prevent quick multi-click glitches
+        var animating = false; //Checks if currently in animation to prevent quick multi-click glitches
 
         //On next button click
         $(".nextBtn").click(function(){
@@ -111,8 +102,46 @@
           
           currentStep = $(this).parent();
           nextStep = $(this).parent().next();
+          console.log("next button pressed")
+          console.log($("fieldset").index(currentStep))
+          console.log($("fieldset").index(nextStep))
 
+          //change progressbar to match nextStep
+          $("#progressbar li").eq($("fieldset").index(nextStep)).addClass("active");
+          //show the next fieldset
+	        nextStep.show(); 
+          console.log("showing next step")
+          //hide the current fieldset
+          currentStep.hide();
+          console.log("hiding current step")
+          animating = false;
+             
         });
+
+        //On previous button click
+        $(".prevBtn").click(function(){
+          //check if animating
+          if(animating) return false;
+          animating = true;
+          
+          currentStep = $(this).parent();
+          previousStep = $(this).parent().prev();
+          
+          //Update progressbar
+          $("#progressbar li").eq($("fieldset").index(currentStep)).removeClass("active");
+          
+          //show the previous fieldset
+          previousStep.show(); 
+          //hide current step
+          currentStep.hide();
+          animating = false; 
+        });
+
+        $(".submit").click(function(){
+          return false;
+        })
+
+        
 
       </script>
     </div>
