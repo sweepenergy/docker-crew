@@ -1,5 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
+/*basic reset*/
+* {margin: 0; padding: 0;}
+
 /*progressbar*/
 #progressbar {
 	margin-bottom: 30px;
@@ -9,7 +12,8 @@
 }
 #progressbar li {
 	list-style-type: none;
-	color: white;
+	text-align: center;
+	color: gray;
 	text-transform: uppercase;
 	font-size: 9px;
 	width: 33.33%;
@@ -24,7 +28,7 @@
 	display: block;
 	font-size: 10px;
 	color: #333;
-	background: white;
+	background: #E8E8E8;
 	border-radius: 3px;
 	margin: 0 auto 5px auto;
 }
@@ -33,7 +37,7 @@
 	content: '';
 	width: 100%;
 	height: 2px;
-	background: white;
+	background:#E8E8E8;
 	position: absolute;
 	left: -50%;
 	top: 9px;
