@@ -1,13 +1,34 @@
 <%- include("partials/header"); %>
 
 <form action="/addDevice" method="POST">
+
+  <div id="progress-bar" style="text-align:center;margin-top:40px;">
+    <span class="progress-marker"></span>
+    <span class="progress-marker"></span>
+    <span class="progress-marker"></span>
+    <span class="progress-marker"></span>
+  </div>
+
+  <fieldset class="step" id="select-protocol">
+
     <label for="type">Protocol:</label>
-    <select name="type">
+    <select name="type" class="required">
         <option value="int">Modbus TCP/IP</option>
     </select>
+
+    <div style="overflow:auto;">
+        <div style="float:right;">
+          <button type="button" id="prevBtn" onclick="nextStep(-1)">Previous</button>
+          <button type="button" id="nextBtn" onclick="nextStep(1)">Next</button>
+        </div>
+    </div>
+
+  </fieldset>
+    
+  <fieldset class="step" id="connect-device">
     <div class="mb-3">
       <label class="form-label">Stream ID</label>
-      <input type="text" class="form-control" name="stream_id">
+      <input type="text" class="form-control required" name="stream_id">
       
     </div>
     <div class="mb-3">
@@ -16,61 +37,117 @@
         
     </div>
     <div class="mb-3">
-        <label class="form-label">Device ID</label>
-        <input type="number" class="form-control" name="device_id" step="1" min="1">
+      <label class="form-label">Device ID</label>
+      <input type="number" class="form-control" name="device_id" step="1" min="1">
         
     </div>
     <div class="mb-3">
-        <label class="form-label">Host IP Address</label>
-        <input type="text" class="form-control" name="host_ip">
+      <label class="form-label">Host IP Address</label>
+      <input type="text" class="form-control required" name="host_ip"> 
         
     </div>
     <div class="mb-3">
-        <label class="form-label">Host Port</label>
-        <input type="number" class="form-control" name="port" step="1" min= "1025" max = "65,535">
-        
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Var Name</label>
-        <input type="text" class="form-control" name="var_name">
-        
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Display Name</label>
-        <input type="text" class="form-control" name="display_name">
-        
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Description</label>
-        <input type="text" class="form-control" name="description">
-        
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Units</label>
-        <input type="text" class="form-control" name="units">
-        
-    </div>
-    <label for="type">Type:</label>
-    <select name="type">
-        <option value="int">int</option>
-        <option value="floatBE">float (big-endian)</option>
-        <option value="floatLE">float (little-endian)</option>
-        <option value="doubleBE">double (big-endian)</option>
-        <option value="doubleLE">double (little-endian)</option>
-    </select>
-    <div class="mb-3">
-        <label class="form-label">Register</label>
-        <input type="number" class="form-control" name="register" step="1">
-        
+      <label class="form-label">Host Port</label>
+      <input type="number" class="form-control required" name="port" step="1" min= "1025" max = "65,535">
+          
     </div>
 
-    <!-- <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Top Directory</label>
-      <input type="text" class="form-control" name="TopDir">
-    </div> -->
-    
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div style="overflow:auto;">
+          <div style="float:right;">
+            <button type="button" id="prevBtn" onclick="nextStep(-1)">Previous</button>
+            <button type="button" id="nextBtn" onclick="nextStep(1)">Next</button>
+          </div>
+    </div>  
+  </fieldset>
+
+    <fieldset class="step" id="add-params">
+        <%- include("forms/addParam"); %>
+        <div style="overflow:auto;">
+          <div style="float:right;">
+            <button type="button" id="prevBtn" onclick="nextStep(-1)">Previous</button>
+            <button type="button" id="nextBtn" onclick="nextStep(1)">Next</button>
+          </div>
+      </div>
+    </fieldset>
+
   </form>
 
+  <script>
+    var stepIndex = 0; //Represents current step
+    showStep(stepIndex);
+    
+    function showStep(currentStep) {
+      // This function will display the specified tab of the form...
+      var steps = document.getElementsByClassName("step");
+      steps[currentStep].style.display = "block";
+      //Fix the Previous/Next buttons:
+      if (currentStep == 0) {
+        document.getElementById("prevBtn").style.display = "none";
+      } else {
+        document.getElementById("prevBtn").style.display = "inline";
+      }
+      if (currentStep == (steps.length - 1)) {
+        document.getElementById("nextBtn").innerHTML = "Submit";
+      } else {
+        document.getElementById("nextBtn").innerHTML = "Next";
+      }
+      //Run a function that will display the correct step indicator:
+      setProgressBar(currentStep);
+    }
+
+    function setProgressBar(currentStep) {
+      // Removes the "active" class of all steps...
+      var steps = document.getElementsByClassName("step");
+      for (var i = 0; i < steps.length; i++) {
+        steps[i].className = steps[i].className.replace("active", "");
+      }
+      //Add the "active" class back to currenct step:
+      steps[currentStep].className += "active";
+    }
+
+    function nextStep(n) {
+      // This function will figure out which tab to display
+      var steps = document.getElementsByClassName("step");
+      console.log(steps);
+      // If a field in current tab is invalid:
+      if (n == 1 && !validateForm()) return false;
+      // Hide the current tab:
+      steps[stepIndex].style.display = "none";
+      // Increase or decrease the current tab by 1:
+      stepIndex = stepIndex + n;
+      // Check if you have reached the end of the form
+      if (stepIndex >= steps.length) {
+        // submit form:
+        document.getElementById("regForm").submit();
+        return false;
+      }
+      // Otherwise, display the correct tab:
+      showStep(stepIndex);
+    }
+
+    function validateForm() {
+      // This function deals with validation of the form fields
+      var valid = true;
+      var steps = document.getElementsByClassName("step");
+      var requiredInput = steps[stepIndex].getElementsByClassName("required");
+
+      // Checks input fields in the current tab:
+      for (var i = 0; i < requiredInput.length; i++) {
+        // If a field is empty...
+        if (requiredInput[i].value == "") {
+          // add an "invalid" class to the field:
+          requiredInput[i].className += " invalid";
+          // and set the current valid status to false
+          valid = false;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        document.getElementsByClassName("progress-marker")[stepIndex].className += " finish";
+      }
+      return valid; // return the valid status
+    }
+
+  </script>
 
 <%- include("partials/footer"); %>
