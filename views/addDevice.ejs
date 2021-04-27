@@ -31,43 +31,29 @@
 
       <fieldset class="step" id="select-protocol">
 
-        <label for="type">Protocol</label>
-        <select name="type" class="required">
-            <option value="int">Modbus TCP/IP</option>
-        </select>
+        <h1>Protocol</h1>
 
+        <div class="mb-3">
+          <label for = "type">Select the communications protocol you would like to use to connect to your device.</label>
+          <select name="type" class="required">
+            <%for(key in protocols) {%>
+              <option value="int"><%= key%></option>
+            <%}; %>
+            
+            <!--<option value="int">Modbus TCP/IP</option>-->
+          </select>
+        </div>
+        
         <input type="button" class="prevBtn" value="Previous" >
         <input type="button" class="nextBtn" value="Next" >
 
       </fieldset>
         
       <fieldset class="step" id="connect-device">
-        <label for="type">Connect Device</label>
-        <div class="mb-3">
-          <label class="form-label">Stream ID</label>
-          <input type="text" class="form-control required" name="stream_id">
-          
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Device Name</label>
-            <input type="text" class="form-control" name="device_name">
-            
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Device ID</label>
-          <input type="number" class="form-control" name="device_id" step="1" min="1">
-            
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Host IP Address</label>
-          <input type="text" class="form-control required" name="host_ip"> 
-            
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Host Port</label>
-          <input type="number" class="form-control required" name="port" step="1" min= "1025" max = "65,535">
-              
-        </div>
+
+        <h1>Connect Device</h1>
+
+        <%- include("forms/connectModbusTCP.ejs");%>
 
         <input type="button" class="prevBtn" value="Previous" >
         <input type="button" class="nextBtn" value="Next" >
@@ -75,17 +61,19 @@
       </fieldset>
 
       <fieldset class="step" id="add-params">
-        <label for="type">Monitored Parameters</label>
+
+        <h1>Monitored Parameters</h1>
         <%- include("forms/addParam"); %>
           
         <input type="button" class="prevBtn" value="Previous" >
-        <input type="button" class="nextBtn" value="Next" >
+        <input type="button" class="nextBtn" value="Submit" >
           
       </fieldset>
 
       </form>
 
       <script>
+        
         //fieldsets:
         var currentStep, nextStep, previousStep;
 
