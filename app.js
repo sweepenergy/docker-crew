@@ -241,10 +241,17 @@ app.get("/search", function(req,res){
 app.get("/deleteParameter", function(req,res){
     res.render("deleteParameter.ejs");
 });
-// const email = "jpotosme@ucmerced.edu";
-// const password= "JakesTesting_209";
 
-
+app.get("/deleteParameter/:id", function(req,res){
+    const TempId = req.params.id;
+    console.log(TempId);
+    axios.delete(baseURL + "directory/" + TempId, config).then(function(response){
+        console.log(response.data)
+        res.redirect("/")
+    }).catch(function(error){
+        console.log("This is the error" + error);
+    });
+});
 
 app.get('/apis', function(req,res){
 
