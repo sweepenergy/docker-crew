@@ -11,6 +11,19 @@
     <link rel="stylesheet" type="text/css" href="/progressbar.css"/>
   </head>
 
+  <script>
+    //selected device connection protocol
+    var protocolForm;
+
+    //Display form for selected connections protocol when option changed
+    $(document).ready(function() {
+      $("#protocol-selector").change(function(){
+        protocolForm = $("#protocol-selector :selected").val();
+        $("#protocol-form").load(protocolForm);
+
+      });
+    });
+  </script>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
@@ -35,12 +48,10 @@
 
         <div class="mb-3">
           <label for = "type">Select the communications protocol you would like to use to connect to your device.</label>
-          <select name="type" class="required">
+          <select id="protocol-selector" class="required">
             <%for(key in protocols) {%>
-              <option value="int"><%= key%></option>
+              <option value="<%= protocols[key]%>"><%= key%></option>
             <%}; %>
-            
-            <!--<option value="int">Modbus TCP/IP</option>-->
           </select>
         </div>
         
@@ -53,7 +64,9 @@
 
         <h1>Connect Device</h1>
 
-        <%- include("forms/connectModbusTCP.ejs");%>
+        <div id = "protocol-form" >
+          <p>Please Select A Communications Protocol to connect with</p>
+        </div>        
 
         <input type="button" class="prevBtn" value="Previous" >
         <input type="button" class="nextBtn" value="Next" >
@@ -73,7 +86,6 @@
       </form>
 
       <script>
-        
         //fieldsets:
         var currentStep, nextStep, previousStep;
 
@@ -90,9 +102,6 @@
           
           currentStep = $(this).parent();
           nextStep = $(this).parent().next();
-          console.log("next button pressed")
-          console.log($("fieldset").index(currentStep))
-          console.log($("fieldset").index(nextStep))
 
           //change progressbar to match nextStep
           $("#progressbar li").eq($("fieldset").index(nextStep)).addClass("active");
@@ -134,7 +143,7 @@
       </script>
     </div>
   </body>
-  <!-- JavaScript Bundle with Popper -->
+  <!-- JavaScript Bundle with Popper 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
