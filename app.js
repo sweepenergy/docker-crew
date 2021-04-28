@@ -17,6 +17,8 @@ app.use(express.urlencoded({extended: true}))
 
 // set EJS as templating engine
 app.set('view engine', 'ejs');
+// set public as location of css files
+app.use(express.static(__dirname + '/public'));
 
 // require axios for promise based architecture 
 const axios = require('axios');

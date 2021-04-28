@@ -15,13 +15,21 @@ require('../models/protocols/modbusTCP');
 //file write
 var fs = require('fs');
 
+//--SUPPORTED PROTOCOLS--//
+// Key is protocol name, value is path to connection html
+var protocols = {
+    "Modbus TCP/IP": '../views/forms/connectModbusTCP',
+
+};
 
 //---ROUTES TO EXPORT---//
 module.exports = function(app){
 
     // Direct user to addDevice page
     app.get("/addDevice", function(req,res){
-        res.render('addDevice');
+        res.render('addDevice',{
+            protocols: protocols
+        });
     });
     
     const data = [];
