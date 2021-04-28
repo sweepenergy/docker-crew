@@ -108,7 +108,7 @@ app.get('/test', function(req,res){
 
 // Return error if user attempts to access endpoint that isnt defined
 app.get("*", function(request, response){
-    response.send(`Error! route does not exist! Please return home to http://${HOST}:${PORT}`);
+    response.send(`Error! route to "${request.originalUrl}" does not exist! Please return home to http://${HOST}:${PORT}`);
 });
 
 
