@@ -30,14 +30,14 @@
               <% for( var j = 0; j < temp.length; j++) { %>
   
           <!-- testing with GET -->
-          <form action="/streamData" method="GET">
+          <form action="/streamData" method="GET" >
             <tr>
-              <td> <a href=""> <%= dirData.directory_name %> </a></td>
+              <td>  <%= dirData.directory_name %> </td>
               
               
               <td>  <%= dirData.directory_id%> </td>
               
-              <td > <a href="/streamData/<%= temp[j].id %>"> <%=temp[j].id %> </a> </td>
+              <td > <a href="/streamData/<%= temp[j].id %>"> <%=temp[j].name %> </a> </td>
               <td>data</td>
               <td>placeholder</td>
               <td>text</td>

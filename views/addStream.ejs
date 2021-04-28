@@ -58,15 +58,15 @@
         
         
 
-      <form action="/addStream" method="POST">
+      <form action="/addStream" method="POST" autocomplete="off"> 
 
         <div class="mb-3">
           <% for(i in homeDirectory){ %>
             <% var temp = homeDirectory.directory %>
-          <label class="form-label">Directory ID:</label>
-          <select class="form-select" name="type">
+          <label class="form-label">Select Directory:</label>
+          <select class="form-select" name="type" id="selectValue" onchange="singleSelectChangeValue()">
             <% for( var j = 0; j < temp.length; j++) { %>
-              <option value="<%= temp[j].id %>"><%= temp[j].id %></option>
+              <option value="<%= temp[j].id %>"><%= temp[j].name %></option>
               <% } %>  
               <% break %>
           </select>
@@ -74,11 +74,25 @@
           
         </div>  
 
+        
+
+         <script>
+
+         function singleSelectChangeValue(){ 
+           var selValue = document.getElementById("selectValue").value;
+             console.log(selValue) 
+           document.getElementById("directoryId").value = selValue;
+           } 
+
+          
+         </script>
+         
+
 
 
         <div class="mb-3">
           <label class="form-label">Selected Directory</label>
-          <input type="text" class="form-control" name="directory_id">
+          <input type="text" class="form-control" name="directory_id" id="directoryId" placeholder="Directory ID" >
       
         </div>
         

@@ -242,16 +242,40 @@ app.get("/deleteParameter", function(req,res){
     res.render("deleteParameter.ejs");
 });
 
-app.get("/deleteParameter/:id", function(req,res){
+app.get("/deleteParameter/:id", async function(req,res){
     const TempId = req.params.id;
     console.log(TempId);
-    axios.delete(baseURL + "directory/" + TempId, config).then(function(response){
-        console.log(response.data)
-        res.redirect("/")
-    }).catch(function(error){
-        console.log("This is the error" + error);
-    });
+
+    // username: process.env.AUTH_KEY,
+    // password: process.env.AUTH_TOKEN
+    var username1 = process.env.AUTH_KEY
+    var password1 = process.env.AUTH_TOKEN
+    
+
+
+    const token = Buffer.from(`${username1}:${password1}`, 'utf8').toString('base64')
+    
+    try{
+        const resp = await axios.delete(baseURL + "directory/" + TempId,{
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization': `Basic ${token}`
+            }
+        })
+        
+        console.log(resp.data)
+        res.redirect("/");
+        
+
+    }catch(e){
+        console.log(e);
+    }
+        
+
+
 });
+
+
 
 app.get('/apis', function(req,res){
 
