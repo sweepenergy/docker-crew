@@ -24,7 +24,7 @@ module.exports = function(app){
         res.render('addDevice');
     });
     
-    // const data = [];
+    const data = [];
 
     // post device to stream
     app.post("/addDevice", function(req,res){
@@ -49,13 +49,13 @@ module.exports = function(app){
 
                     console.log(DatatoString);
                     
-                    // var data = [];
+                    data = [];
                     var temp = { 
                         "timestamp" : "",
                         "sample": DatatoString
                     };
 
-                    // data.push(temp);
+                    data.push(temp);
 
 
                     console.log(data);

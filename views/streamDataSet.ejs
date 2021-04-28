@@ -1,10 +1,10 @@
 <%- include("partials/header"); %>
 
 
-<h1>Stream Data </h1>
+<h1>Data Set </h1>
 
 
-<h2 id="streamData-id"> <%= streamData.stream_id%></h2>
+
 
 <div class="container-fluid">
   <div class="row">
@@ -50,50 +50,46 @@
     </nav>
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
-<table class="table table-striped table-sm table-bordered">
-    <thead>
-      <tr>
-        <th>Units</th>
-        <th>Name</th>
-        <th>Variable Name</th>
-        <th>Description</th>
-        <th>Type</th>
-        
-      </tr>
-    </thead>
-    <tbody>
+      <h2> <%= DataSet.stream_id %></h2>
 
-
-        <% for(i in streamData){ %>
-                <% var temp = streamData.schema %>
-            <% for( var j = 0; j < temp.length; j++) { %>
-
-        <!-- testing with GET -->
-        <form action="/streamData" method="GET">
+      <table class="table">
+        <thead>
           <tr>
-            <td>  <%= temp[j].units %> </td>
             
+            <th scope="col">Date</th>
             
-            <td>  <%= temp[j].display_name %> </td>
-            
-            <!-- stream/5b6efd8a-cd1d-4bc2-82b7-d410579b1787/ts/current_b/dataset -->
-            <td > <a href="/streamDataSet/<%= streamData.stream_id%>/ts/<%= temp[j].var_name %>/dataset" > <%=temp[j].var_name %>  </a> </td>
-            
-            <td><%= temp[j].description %></td>
-            <td><%= temp[j].type %></td>
+            <% for(i in DataSet){ %>
+            <th scope="col"> <%= DataSet.var_name %></th>
+            <% break %>
+            <% } %>
+          </tr>
+        </thead>
+
+        <% for(i in DataSet){ %>
+          <% var temp = DataSet.dataset %>
+           <% console.log(temp); %>
+            <% for( var j = 0; j < temp.length; j++) { %>
+              
+              <%var newTemp = temp[j];%>
+
+        <tbody>
+          <tr>
+            <%var newTemp = new Date(temp[j][0]) ;%>
+            <th scope="row"> <%= newTemp %></th>
+            <td><%= temp[j][1] %></td>
             
           </tr>
-        </form>
-        
-      
-        <% } %>  
-        <% break %>
-    <% } %>
+          
+        </tbody>
+
+            <% } %>
+            <% break %>
+          <%}%>
+      </table>
 
 
+    
 
-    </tbody>
-  </table>
 </main>
 </div>
 </div>
