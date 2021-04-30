@@ -21,7 +21,7 @@ const envPath = '.env'
 // import sweepAuth module Sweep API Authentication from env variables + sets api base url
 const sweepAPI = require('./sweepapiAuth');
 
-
+//TODO: add check for if auth_key and auth_token are valid before redirecting home
 
 //---ROUTES TO EXPORT---//
 module.exports = function(app){
@@ -70,12 +70,57 @@ module.exports = function(app){
 
     //used this post request to make valid verification check, one above wasn't nice
 
-
     app.post('/verification_Check', function(req, res) { 
 
         var accountData = req.body;
-        console.log(accountData);
+
+        // TODO: Fix async function to write auth key and token
+        /* async function f() {
+            axios.post(sweepAPI.url + "account/auth", accountData, sweepAPI.config)
+            .then(function(response){
+                // console.log(response.data);
+                if(response.data.status === "error_not_valid_auth" ){
+                    
+                    res.redirect('/login');
+                }
+                else{
+                    let parsedFile = parse(envPath);
+
+                    console.log(response.data.session_id)
+                    console.log(response.data.session_token)
+                    parsedFile.AUTH_KEY = response.data.session_id
+                    parsedFile.AUTH_TOKEN = response.data.session_token
+                    parsedFile.fingerprint = response.data.session_id
+                    parsedFile.token = response.data.session_token
+                    
+                    fs.appendFileSync(envPath, stringify(parsedFile)) 
+
+                    fs.appendFile('SessionData.txt', "\n"+response.data.session_id +":"+ response.data.session_token, function(err){
+                        if(err){
+                            return console.log(err);
+                        }
+                        console.log("written successfully");
+                    })
+
+                    res.redirect('/');
+                    
+                    // res.render("directories", {
+                    //     homeDirectory: response.data
         
+                        
+                    // });
+                    // res.redirect('/');
+                }
+
+
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        } */
+
+
+        // NOTE: The following chunck gets auth key and token from sweep api and writes it to .env
         axios.post(sweepAPI.url + "account/auth", accountData, sweepAPI.config)
         .then(function(response){
             // console.log(response.data);
@@ -104,20 +149,12 @@ module.exports = function(app){
 
                 res.redirect('/');
                 
-                // res.render("directories", {
-                //     homeDirectory: response.data
-    
-                    
-                // });
-                // res.redirect('/');
             }
-
 
         })
         .catch(function(error){
             console.log(error);
         });
-
 
     });
 

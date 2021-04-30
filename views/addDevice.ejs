@@ -77,10 +77,12 @@
       <fieldset class="step" id="connect-device">
 
         <h1>Connect Device</h1>
-
-        <div id = "protocol-form" >
+        <!--TODO: Change form based on jquery-->
+        <!-- <div id = "protocol-form" >
           <p>Please Select A Communications Protocol to connect with</p>
-        </div>        
+        </div>  -->       
+
+        <%- include("forms/connectModbusTCP"); %>
 
         <input type="button" class="prevBtn" value="Previous" >
         <input type="button" class="nextBtn" value="Next" >
