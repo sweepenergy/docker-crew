@@ -363,7 +363,7 @@ app.get("/streamData/:id", function(req,res){
             .then(function(response){
                 console.log(response.data);
                 res.render("streamData",{
-                    streamData:response.data
+                    streamData:response.data,
                 })
             })
             .catch( function(error){
@@ -433,6 +433,7 @@ app.get("/addStream", function(req,res){
 
     axios.get(baseURL + "directory/home", config).then(function(response){
         res.render("addStream", {
+            
             homeDirectory : response.data
         });
 
@@ -452,7 +453,7 @@ app.post("/addStream", function(req,res){
 
     axios.post(baseURL+ "stream", streamData,config)
     .then(function(response){
-        console.log(response);
+        console.log(response.data);
         
 
     }).catch(function(error){
