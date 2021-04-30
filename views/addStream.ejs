@@ -5,36 +5,19 @@
 
 
 
-
+<!-- 
     <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Directory ID
-      </button>
-
-     
-      <% for(i in homeDirectory){ %>
-        <% var temp = homeDirectory.directory %>
-         
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-         
-          <% for( var j = 0; j < temp.length; j++) { %>
-          <a class="dropdown-item" href="#"> <%= temp[j].id %></a>
-          <% } %>  
-          <% break %>
-        
-        </div>
-        
-    <% } %>
       
-    </div>
+    </div> -->
+
 
    
 <div class="container-fluid">
     <div class="row">
-      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
-            <li class="nav-item">
+            <!--<li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/">
                 <span data-feather="home"></span>
                 Homepage
@@ -51,7 +34,7 @@
                 <span data-feather="shopping-cart"></span>
                 Directories
               </a>
-            </li>
+            </li>-->
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <a href="/addDirectory" class="btn btn-sm btn-outline-secondary" id="CreateNewDirectoryBtn" >Create New Directory</a>
@@ -62,22 +45,57 @@
                 <a href="/addStream" class="btn btn-sm btn-outline-secondary" id="CreateNewStreamBtn" >Create New Stream</a>
               </a>
             </li>
-            <li class="nav-item">
+            <!--<li class="nav-item">
               <a class="nav-link" href="#">
                 <a href="/login" class="btn btn-sm btn-outline-secondary" id="ExitUIBtn" >Logout</a>
               </a>
-            </li>
+            </li>-->
           </ul>
         </div>
       </nav>
 
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <form action="/addStream" method="POST">
+        
+        
+
+      <form action="/addStream" method="POST" autocomplete="off"> 
+
+        <div class="mb-3">
+          <% for(i in homeDirectory){ %>
+            <% var temp = homeDirectory.directory %>
+          <label class="form-label">Select Directory:</label>
+          <select class="form-select" name="type" id="selectValue" onchange="singleSelectChangeValue()">
+            <% for( var j = 0; j < temp.length; j++) { %>
+              <option value="<%= temp[j].id %>"><%= temp[j].name %></option>
+              <% } %>  
+              <% break %>
+          </select>
+          <% } %>
+          
+        </div>  
+
+        
+
+         <script>
+
+         function singleSelectChangeValue(){ 
+           var selValue = document.getElementById("selectValue").value;
+             console.log(selValue) 
+           document.getElementById("directoryId").value = selValue;
+           } 
+
+          
+         </script>
+         
+
+
 
         <div class="mb-3">
           <label class="form-label">Selected Directory</label>
-          <input type="text" class="form-control" name="directory_id">
+          <input type="text" class="form-control" name="directory_id" id="directoryId" placeholder="Directory ID" >
+      
         </div>
+        
 
 
         <div class="mb-3">
@@ -87,27 +105,27 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Var Name</label>
-            <input type="text" class="form-control" name="inputDataVar[][var_name]">
+            <input type="text" class="form-control" name="inputDataVar[][var_name]" value="dummyVariableName" readonly="readonly">
             
         </div>
         <div class="mb-3">
             <label class="form-label">Display Name</label>
-            <input type="text" class="form-control" name="inputDataVar[][display_name]">
+            <input type="text" class="form-control" name="inputDataVar[][display_name]" value="dummyDisplayName" readonly="readonly">
             
         </div>
         <div class="mb-3">
             <label class="form-label">Description</label>
-            <input type="text" class="form-control" name="inputDataVar[][description]">
+            <input type="text" class="form-control" name="inputDataVar[][description]" value="dummyDescription" readonly="readonly">
             
         </div>
         <div class="mb-3">
             <label class="form-label">Units</label>
-            <input type="text" class="form-control" name="inputDataVar[][units]">
+            <input type="text" class="form-control" name="inputDataVar[][units]" value="dummyUnits" readonly="readonly">
             
         </div>
         <div class="mb-3">
             <label class="form-label">Type</label>
-            <input type="text" class="form-control" name="inputDataVar[][type]">
+            <input type="text" class="form-control" name="inputDataVar[][type]" value="dummyType" readonly="readonly">
             
         </div>
     
@@ -116,7 +134,7 @@
           <input type="text" class="form-control" name="TopDir">
         </div> -->
         
-        <button type="submit" class="btn">Submit</button>
+        <button type="submit" class="btn btn-sm btn-outline-secondary">Submit</button>
       </form>
     </main>
     

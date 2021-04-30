@@ -8,7 +8,16 @@ const sweepAPI = require('./sweepapiAuth');
 module.exports = function(app) {
 
     app.get("/addStream", function(req,res){
-        res.render('addStream');
+        axios.get(sweepAPI.url + "directory/home", sweepAPI.config).then(function(response){
+            res.render("addStream", {
+                
+                homeDirectory : response.data
+            });
+    
+    
+        }).catch(function(error){
+            console.log("This is the error" + error);
+        });
     });
     
     app.post("/addStream", function(req,res){
