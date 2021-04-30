@@ -74,91 +74,49 @@ module.exports = function(app){
     app.post('/verification_Check', function(req, res) { 
 
         var accountData = req.body;
-
-        async function f() {
-            axios.post(sweepAPI.url + "account/auth", accountData, sweepAPI.config)
-            .then(function(response){
-                // console.log(response.data);
-                if(response.data.status === "error_not_valid_auth" ){
-                    
-                    res.redirect('/login');
-                }
-                else{
-                    let parsedFile = parse(envPath);
-
-                    console.log(response.data.session_id)
-                    console.log(response.data.session_token)
-                    parsedFile.AUTH_KEY = response.data.session_id
-                    parsedFile.AUTH_TOKEN = response.data.session_token
-                    parsedFile.fingerprint = response.data.session_id
-                    parsedFile.token = response.data.session_token
-                    
-                    fs.appendFileSync(envPath, stringify(parsedFile)) 
-
-                    fs.appendFile('SessionData.txt', "\n"+response.data.session_id +":"+ response.data.session_token, function(err){
-                        if(err){
-                            return console.log(err);
-                        }
-                        console.log("written successfully");
-                    })
-
-                    res.redirect('/');
-                    
-                    // res.render("directories", {
-                    //     homeDirectory: response.data
+        console.log(accountData);
         
-                        
-                    // });
-                    // res.redirect('/');
-                }
-
-
-            })
-            .catch(function(error){
-                console.log(error);
-            });
-        }
-        // axios.post(sweepAPI.url + "account/auth", accountData, sweepAPI.config)
-        // .then(function(response){
-        //     // console.log(response.data);
-        //     if(response.data.status === "error_not_valid_auth" ){
+        axios.post(sweepAPI.url + "account/auth", accountData, sweepAPI.config)
+        .then(function(response){
+            // console.log(response.data);
+            if(response.data.status === "error_not_valid_auth" ){
                 
-        //         res.redirect('/login');
-        //     }
-        //     else{
-        //         let parsedFile = parse(envPath);
+                res.redirect('/login');
+            }
+            else{
+                let parsedFile = parse(envPath);
 
-        //         console.log(response.data.session_id)
-        //         console.log(response.data.session_token)
-        //         parsedFile.AUTH_KEY = response.data.session_id
-        //         parsedFile.AUTH_TOKEN = response.data.session_token
-        //         parsedFile.fingerprint = response.data.session_id
-        //         parsedFile.token = response.data.session_token
+                console.log(response.data.session_id)
+                console.log(response.data.session_token)
+                parsedFile.AUTH_KEY = response.data.session_id
+                parsedFile.AUTH_TOKEN = response.data.session_token
+                parsedFile.fingerprint = response.data.session_id
+                parsedFile.token = response.data.session_token
                 
-        //         fs.appendFileSync(envPath, stringify(parsedFile)) 
+                fs.appendFileSync(envPath, stringify(parsedFile)) 
 
-        //         fs.appendFile('SessionData.txt', "\n"+response.data.session_id +":"+ response.data.session_token, function(err){
-        //             if(err){
-        //                 return console.log(err);
-        //             }
-        //             console.log("written successfully");
-        //         })
+                fs.appendFile('SessionData.txt', "\n"+response.data.session_id +":"+ response.data.session_token, function(err){
+                    if(err){
+                        return console.log(err);
+                    }
+                    console.log("written successfully");
+                })
 
-        //         res.redirect('/');
+                res.redirect('/');
                 
-        //         // res.render("directories", {
-        //         //     homeDirectory: response.data
+                // res.render("directories", {
+                //     homeDirectory: response.data
     
                     
-        //         // });
-        //         // res.redirect('/');
-        //     }
+                // });
+                // res.redirect('/');
+            }
 
 
-        // })
-        // .catch(function(error){
-        //     console.log(error);
-        // });
+        })
+        .catch(function(error){
+            console.log(error);
+        });
 
 
     });
