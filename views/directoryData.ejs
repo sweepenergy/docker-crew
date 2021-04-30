@@ -1,16 +1,14 @@
 <%- include("partials/header"); %>
 
 
-<h1>Directory Data </h1>
-
-<h2> <%= dirData.directory_id%></h2>
+<h1><%= dirData.directory_name%></h1>
 
 
 <table class="table table-striped table-sm table-bordered">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Directory ID</th>
+        
+      
         <th>Streams</th>
         <th>Delete</th>
       </tr>
@@ -25,11 +23,6 @@
         <!-- testing with GET -->
         <form action="/streamData" method="GET">
           <tr>
-            <td> <a href=""> <%= dirData.directory_name %> </a></td>
-            
-            
-            <td>  <%= dirData.directory_id%> </td>
-            
             <td > <a href="/streamData/<%= temp[j].id %>"> <%=temp[j].name %> </a> </td>
      
 
