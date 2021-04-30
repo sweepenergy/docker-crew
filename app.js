@@ -32,9 +32,6 @@ require('./routes/sweepapiStream')(app);
 require('./routes/sweepapiDirectory')(app); // import /addDirectory endpoints
 require('./routes/device')(app); 
 
-// db things 
-require('./routes/mongoose')(app); 
-
 // homepage endpoint (site root directory)
 app.get("/", function(req, res){
 
