@@ -1,14 +1,24 @@
 <%- include("partials/header"); %>
 
-
 <h1><%= streamData.name%> </h1>
-
-
-
 
 <div class="container-fluid">
   <div class="row">
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    
+  <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="table-responsive">
+          <table class="table ">
+            <thead>
+              <tr>
+                <th>Units</th>
+                <th>Name</th>
+                <th>Variable Name</th>
+                <th>Description</th>
+                <th>Type</th>
+                
+              </tr>
+            </thead>
+            <tbody>
       
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
@@ -76,18 +86,35 @@
             
           </tr>
         </form>
-        
       
-        <% } %>  
-        <% break %>
-    <% } %>
-
-
-
-    </tbody>
-  </table>
-</main>
-</div>
+                <!-- testing with GET -->
+                <form action="/streamData" method="GET">
+                  <tr>
+                    <td> <a href=""> <%= temp[j].units %> </a></td>
+                    
+                    
+                    <td>  <%= temp[j].display_name %> </td>
+                    
+                    <td >  <%=temp[j].var_name %> </td>
+                    <td><%= temp[j].description %></td>
+                    <td><%= temp[j].type %></td>
+                    
+                  </tr>
+                </form>
+                
+              
+                <% } %>  
+                <% break %>
+            <% } %>
+      
+      
+      
+          </tbody>
+        </table>
+      </div>
+  
+  </main>
+  </div>
 </div>
 
 <%- include("partials/footer"); %>

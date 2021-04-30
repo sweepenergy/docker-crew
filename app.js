@@ -54,7 +54,6 @@ app.get("/", function(req, res){
     });
 });
 
-
 app.get('/list', function(req,res){
     
     Stream.find({}, function(error,streams){
@@ -73,7 +72,6 @@ app.get('/list', function(req,res){
 app.get("/search", function(req,res){
     res.render("search.ejs");
 });
-
 
 app.get('/test', function(req,res){
 
