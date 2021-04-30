@@ -26,16 +26,34 @@ var protocols = {
 module.exports = function(app){
 
     // Direct user to addDevice page
-    app.get("/addDevice", function(req,res){
-        res.render('addDevice',{
-            protocols: protocols
-        });
+    //jakob: needed to add this in order to display available streams for selected directory
+    app.get("/addDevice/:id/:var_name", function(req,res){
+
+        console.log("HERE");
+        const streamID = req.params.id;
+        console.log(streamID);
+
+        axios.get(sweepAPI.url+"stream/"+streamID, sweepAPI.config)
+            .then(function(response){
+                // console.log(response.data);
+                res.render("addDevice",{
+                    streamData : response.data,
+                    protocols: protocols
+                })
+            })
+            .catch( function(error){
+                console.log(error);
+            })
     });
     
-    const data = [];
+   
 
     // post device to stream
-    app.post("/addDevice", function(req,res){
+    app.post("/addDevice/:id/:var_name", function(req,res){
+        
+        const streamID = req.params.id;
+        const variableName = req.params.var_name;
+        console.log("IN HERE: " + variableName)
         var data = req.body;
         console.log(data);
 
@@ -57,19 +75,17 @@ module.exports = function(app){
 
                     console.log(DatatoString);
                     
-                    data = [];
+                    
                     var temp = { 
                         "timestamp" : "",
                         "sample": DatatoString
                     };
 
-                    data.push(temp);
-
-
-                    console.log(data);
                     
+                    console.log(temp);
 
-                    axios.post(sweepAPI.url + "stream/5b6efd8a-cd1d-4bc2-82b7-d410579b1787/ts/current_b/dataset", temp, sweepAPI.config)
+                    //currently updating data on hour by the week
+                    axios.post(sweepAPI.url + "stream/"+streamID+"/ts/"+variableName+"/dataset?span=raw&time_scale=custom&range_start=2021-04-29T01:04:26.549Z&range_end=2021-04-29T02:04:26.549Z&limit=100&ts_type=undefined", temp, sweepAPI.config)
                     .then(function(response){
                         console.log(response.data);
                         
@@ -79,16 +95,12 @@ module.exports = function(app){
                         // console.log(error);
                     });
 
-                    // .then(function(){
-                    //     fs.readFile('dataset.json', function (err,data){
-                    //         var json = JSON.parse(data);
-                    //         json.push('sample: ' + temp);
-        
-                    //         fs.writeFile("dataset.json", JSON.stringify(json))
-                    //     });
-                    // })
+                   
 
                 });
+            })
+            .then(function(){
+                res.redirect("/")
             })
             // .then(function(){
             //     console.log("data in next .then " + data.sample);
@@ -105,6 +117,7 @@ module.exports = function(app){
             // })
             .catch(function(e) {
                 //print error if errors out
+                console.log("this is where error is")
                 console.log(e.message); 
             });
         //TODO:

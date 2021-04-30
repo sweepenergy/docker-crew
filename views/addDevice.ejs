@@ -14,14 +14,25 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Sweep25</a>
+        <a class="navbar-brand" href="/">Sweep25</a>
         
       </div>
     </nav>
 
     <div class="container">
   
-    <form id="multi-step-form" action="/addDevice" method="POST">
+      <script>
+         function validateForm() {
+                //alert('Validating form...');
+                var text = document.getElementById('var_name').value;
+                var form = document.getElementById("multi-step-form");
+                form.action = '/addDevice/<%=streamData.stream_id%>/'+text;
+                console.log(text);
+                return text;
+         }
+      </script>
+
+    <form id="multi-step-form"  method="POST" >
 
       <ol id="progressbar">
         <li class="active">Protocol</li>
@@ -67,6 +78,7 @@
           
         <input type="button" class="prevBtn" value="Previous" >
         <input type="button" class="nextBtn" value="Submit" >
+        <button type="submit" class="btn btn-success" onclick="validateForm()">Submit</button>
           
       </fieldset>
 

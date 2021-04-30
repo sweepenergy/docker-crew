@@ -2,9 +2,9 @@
 
 
 <h1>Directory Data </h1>
-<p>weeewooo</p>
 
 <h2> <%= dirData.directory_id%></h2>
+
 
 <table class="table table-striped table-sm table-bordered">
     <thead>
@@ -12,20 +12,15 @@
         <th>Name</th>
         <th>Directory ID</th>
         <th>Streams</th>
-        <th>IP</th>
-        <th>Port Number</th>
-        <th>Status</th>
-        <th>Monitor Frequency</th>
-        <th>Parameters Monitored</th>
         <th>Delete</th>
       </tr>
     </thead>
     <tbody>
 
 
-        <% for(i in dirData){ %>
-                <% var temp = dirData.stream %>
-            <% for( var j = 0; j < temp.length; j++) { %>
+      <% for(i in dirData){ %>
+        <% var temp = dirData.stream %>
+      <% for( var j = 0; j < temp.length; j++) { %>
 
         <!-- testing with GET -->
         <form action="/streamData" method="GET">
@@ -35,12 +30,9 @@
             
             <td>  <%= dirData.directory_id%> </td>
             
-            <td > <a href="/streamData/<%= temp[j].id %>"> <%=temp[j].id %> </a> </td>
-            <td>data</td>
-            <td>placeholder</td>
-            <td>text</td>
-            <td>placeholder</td>
-            <td>placeholder</td>
+            <td > <a href="/streamData/<%= temp[j].id %>"> <%=temp[j].name %> </a> </td>
+     
+
             <td>
                     <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                     <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">

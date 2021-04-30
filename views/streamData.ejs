@@ -31,20 +31,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <a href="/addDirectory" class="btn btn-sm btn-outline-secondary" id="CreateNewDirectoryBtn" >Create New Directory</a>
-            </a>
+            <a class="nav-link" href="/createStream/<%= streamData.stream_id%>">Create Stream</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <a href="/addStream" class="btn btn-sm btn-outline-secondary" id="CreateNewStreamBtn" >Create New Stream</a>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <a href="/login" class="btn btn-sm btn-outline-secondary" id="ExitUIBtn" >Logout</a>
-            </a>
-          </li>
+          
+         
         </ul>
       </div>
     </nav>
@@ -58,6 +48,7 @@
         <th>Variable Name</th>
         <th>Description</th>
         <th>Type</th>
+        <th>Create</th>
         
       </tr>
     </thead>
@@ -81,6 +72,7 @@
             
             <td><%= temp[j].description %></td>
             <td><%= temp[j].type %></td>
+            <td><a href="/addDevice/<%= streamData.stream_id%>/<%= temp[j].var_name %>">Add Data</a></td>
             
           </tr>
         </form>
