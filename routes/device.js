@@ -15,7 +15,8 @@ require('../models/protocols/modbusTCP');
 //--SUPPORTED PROTOCOLS--//
 // Key is protocol name, value is path to connection html
 var protocols = {
-    "Modbus TCP/IP": '../views/forms/connectModbusTCP',
+    "Please Select A Protocol": '',
+    "Modbus TCP/IP": '../views/forms/connectModbusTCP.ejs',
 
 };
 
