@@ -450,7 +450,7 @@ app.post("/addStream", function(req,res){
     var streamData = req.body;
     console.log(streamData);
 
-    axios.post(baseURL+ "stream", streamData,config)
+    axios.post(baseURL+ "stream", streamData ,config)
     .then(function(response){
         console.log(response);
         
@@ -526,6 +526,6 @@ app.get("*", function(req,res){
 })
 
 
-app.listen(3000, function(req,res){
+app.listen(8000, function(req,res){
     console.log("Online!");
 });
