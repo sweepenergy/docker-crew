@@ -46,7 +46,7 @@ app.get("/", function(req, res){
     // STREATCH GOAL: Check app user login (non Sweep API)
 
     // Display Homepage 
-    axios.get(sweepAPI.url + "directory/home", sweepAPI.config).then(function(response){
+  axios.get(sweepAPI.url + "directory/home", sweepAPI.config).then(function(response){
         //console.log(response.data);
         res.render("homepage", {
             homeDirectory : response.data

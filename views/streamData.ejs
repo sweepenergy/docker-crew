@@ -2,7 +2,7 @@
 
 
 <h1>Stream Data </h1>
-<p>workinggg</p>
+
 
 <h2 id="streamData-id"> <%= streamData.stream_id%></h2>
 
@@ -31,20 +31,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <a href="/addDirectory" class="btn btn-sm btn-outline-secondary" id="CreateNewDirectoryBtn" >Create New Directory</a>
-            </a>
+            <a class="nav-link" href="/createStream/<%= streamData.stream_id%>">Create Stream</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <a href="/addStream" class="btn btn-sm btn-outline-secondary" id="CreateNewStreamBtn" >Create New Stream</a>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <a href="/login" class="btn btn-sm btn-outline-secondary" id="ExitUIBtn" >Logout</a>
-            </a>
-          </li>
+          
+         
         </ul>
       </div>
     </nav>
@@ -58,6 +48,7 @@
         <th>Variable Name</th>
         <th>Description</th>
         <th>Type</th>
+        <th>Create</th>
         
       </tr>
     </thead>
@@ -71,14 +62,17 @@
         <!-- testing with GET -->
         <form action="/streamData" method="GET">
           <tr>
-            <td> <a href=""> <%= temp[j].units %> </a></td>
+            <td>  <%= temp[j].units %> </td>
             
             
             <td>  <%= temp[j].display_name %> </td>
             
-            <td >  <%=temp[j].var_name %> </td>
+            <!-- stream/5b6efd8a-cd1d-4bc2-82b7-d410579b1787/ts/current_b/dataset -->
+            <td > <a href="/streamDataSet/<%= streamData.stream_id%>/ts/<%= temp[j].var_name %>/dataset" > <%=temp[j].var_name %>  </a> </td>
+            
             <td><%= temp[j].description %></td>
             <td><%= temp[j].type %></td>
+            <td><a href="/addDevice/<%= streamData.stream_id%>/<%= temp[j].var_name %>">Add Data</a></td>
             
           </tr>
         </form>
