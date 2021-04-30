@@ -17,23 +17,14 @@
       <p id="login-error-msg">Invalid username <span id="error-msg-second-line">and/or password</span></p>
     </div> -->
     
-    <form id="login-form">
+    <form id="login-form" action="/verification_check" method="POST">
       <div class="mb-3">
-        <label for="exampleDropdownFormEmail" class="form-floating">Username</label>
-        <input type="email" class="form-control" id="exampleDropdownFormEmail" placeholder="Username">
-        </input>
+        <label for="exampleDropdownFormEmail" class="form-label">Username</label>
+        <input type="email" class="form-control" id="exampleDropdownFormEmail" placeholder="Username" name="email">
       </div>
       <div class="mb-3">
-        <label for="exampleDropdownFormPassword" class="form-floating">Password</label>
-        <input type="password" class="form-control" id="exampleDropdownFormPassword" placeholder="Password">
-        </input>
-      </div>
-      <div class = "checkbox mb-3">
-        <label>
-          <input type = "checkbox" value = "remember-me">
-          </input>
-          Remember me
-        </label>
+        <label for="exampleDropdownFormPassword" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleDropdownFormPassword" placeholder="Password" name="password">
       </div>
       <div class="mb-3">
         <button type="submit" class="btn btn-sm btn-outline-secondary">Sign in</button>
@@ -41,9 +32,9 @@
       <div class="mb-3">
         <!-- <button type="submit" class="btn btn-primary"> -->
 
-          <a href="https://app.facility-ops.com/login" class="btn btn-sm btn-outline-secondary" id="newAccountBtn" >Create New Account</a>
+          <!-- <a href="/newAccount" class="btn btn-sm btn-outline-secondary" id="newAccountBtn" >Create New Account</a> -->
         <!-- </button> -->
-        
+        <a href="https://app.facility-ops.com/login" class="btn btn-sm btn-outline-secondary" id="newAccountBtn" >Create New Account</a>
       </div>
 
     </form>
