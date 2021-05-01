@@ -104,5 +104,24 @@ module.exports = function(app) {
 
     });
     
+    app.get("/deleteStream", function(req,res){
+        res.render("deleteStream");
+
+    });
+
+
+    app.get("/deleteStream/:id", function(req,res){
+        const streamID = req.params.id;
+
+        axios.delete(sweepAPI.url + "stream/" + streamID, sweepAPI.config)
+        .then(function(response){
+            res.redirect("/")
+            console.log(response);
+
+        }).catch(function(error){
+            console.log(error);
+        })
+
+    });
 
 };

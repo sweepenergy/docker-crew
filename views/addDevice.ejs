@@ -57,7 +57,7 @@
         <h1>Protocol</h1>
 
         <div class="mb-3">
-          <label for = "type">Select the communications protocol that you would like to use to connect to your device.</label>
+          <label for = "type">Select the communications protocol that you would like to use to connect to your device.  </label>
           <select id="protocol-selector" class="required">
             <%for(key in protocols) {%>
               <option value="<%= protocols[key]%>"><%= key%></option>
@@ -65,7 +65,7 @@
           </select>
         </div>
         
-        <input type="button" class="btn btn-success prevBtn" value="Previous" >
+        <!-- <input type="button" class="btn btn-success prevBtn" value="Previous" href="/" > -->
         <input type="button" class="btn btn-success nextBtn" value="Next" >
 
       </fieldset>
@@ -91,7 +91,7 @@
         <%- include("forms/addParam"); %>
           
         <input type="button" class="btn btn-success prevBtn" value="Previous" >
-        <input type="button" class="btn btn-success nextBtn" value="Next" >
+        
         <button type="submit" class="btn btn-success" onclick="validateForm()">Submit</button>
           
       </fieldset>

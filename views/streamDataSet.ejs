@@ -7,8 +7,8 @@
 
 
 
-  
-
+<main class="col-md-9 ms-sm-auto col-xl-10 px-md-4">
+  <div class="table-responsive">
       <table class="table">
         <thead>
           <tr>
@@ -24,7 +24,7 @@
 
         <% for(i in DataSet){ %>
           <% var temp = DataSet.dataset %>
-           <% console.log(temp); %>
+          <% console.log(temp); %>
             <% for( var j = 0; j < temp.length; j++) { %>
               
               <%var newTemp = temp[j];%>
@@ -43,12 +43,11 @@
             <% break %>
           <%}%>
       </table>
+    </div>  
+  </main>
 
+      
 
-    
-
-</main>
-</div>
 </div>
 
 <%- include("partials/footer"); %>

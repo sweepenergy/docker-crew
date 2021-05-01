@@ -11,26 +11,7 @@
       
       <div class="position-sticky pt-1">
         <ul class="nav flex-column">
-          <!--
-
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">
-              <span data-feather="home"></span>
-              Home
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/apis">
-              <span data-feather="file"></span>
-              API's
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/directories">
-              <span data-feather="shopping-cart"></span>
-              Directories
-            </a>
-          </li>-->
+          
           <li class="nav-item">
             <a class="nav-link" href="#">
               <a href="/addDirectory" class="btn btn-sm btn-outline-secondary" id="CreateNewDirectoryBtn" >Create New Directory</a>
@@ -41,16 +22,6 @@
               <a href="/addStream" class="btn btn-sm btn-outline-secondary" id="CreateNewStreamBtn" >Create Stream ID</a>
             </a>
           </li>
-          <!--<li class="nav-item">
-            <a class="nav-link" href="#">
-              <a href="/search" class="btn btn-sm btn-outline-secondary" id="searchBtn" >Search API Key</a>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <a href="/login" class="btn btn-sm btn-outline-secondary" id="ExitUIBtn" >Logout</a>
-            </a>
-          </li>-->
         </ul>
       </div>
     </nav>
@@ -60,13 +31,13 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Directory ID</th>
-              <th>Streams</th>
-              <th>IP</th>
+              <!-- <th>Directory ID</th> -->
+              <!-- <th>Streams</th> -->
+              <!-- <th>IP</th>
               <th>Port Number</th>
               <th>Status</th>
               <th>Monitor Frequency</th>
-              <th>Parameters Monitored</th>
+              <th>Parameters Monitored</th> -->
               <th>Delete</th>
             </tr>
           </thead>
@@ -80,29 +51,13 @@
               <!-- testing with GET -->
               <form action="/directoryData" method="GET">
                 <tr>
-                  <td>  <%= temp[j].name %> </td>
+                  <td>  <a  href="/directoryData/<%= temp[j].id %>"> <%= temp[j].name %> </a> </td>
                   
                   
-                  <td> <a href="/directoryData/<%= temp[j].id %>">   <%= temp[j].id %>  </a></td>
-                  
-                  <td>random</td>
-                  <td>data</td>
-                  <td>placeholder</td>
-                  <td>
-                    <label class="switch">
-                      <input type="checkbox">
-                      <span class="slider round"></span>
-                    </label>
-                  </td>
-                  <td>placeholder</td>
-                  <td>placeholder</td>
 
                   
-                  <td>  <a href="/deleteParameter/<%= temp[j].id %>" class="btn btn-sm " id="deleteParameterBtn" >Delete</a>
-                     <!-- <a href="/deleteParameter" class="btn btn-sm btn-outline-primary" id="deleteParameterBtn" >Delete</a> -->
-                    <!-- <button><label class="badge badge-outline-danger">Delete</label></button> -->
-                    <!-- <a href="/deleteParameter" class="badge badge-danger">Delete</a> -->
-                    <!--<button class="btn btn-outline-danger btn-fw">Delete</button>-->
+                  <td>  <a href="/deleteDirectory/<%= temp[j].id %>" class="btn btn-sm " id="deleteParameterBtn" >Delete</a>
+            
                   </td>
                 
                 </tr>
