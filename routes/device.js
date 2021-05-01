@@ -103,19 +103,7 @@ module.exports = function(app){
             .then(function(){
                 res.redirect("/")
             })
-            // .then(function(){
-            //     console.log("data in next .then " + data.sample);
-
-            //     axios.post(sweepAPI.url + "stream//ts/Voltage b//dataset", data, sweepAPI.config)
-            //     .then(function(response){
-            //         console.log(response.data);
-                    
-            //     })
-            //     .catch( function(error){
-            //         console.log("THERE WAS AN ERROR");
-            //         // console.log(error);
-            //     });
-            // })
+    
             .catch(function(e) {
                 //print error if errors out
                 console.log("this is where error is")

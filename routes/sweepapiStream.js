@@ -28,14 +28,14 @@ module.exports = function(app) {
         axios.post(sweepAPI.url + "stream", streamData, sweepAPI.config)
         .then(function(response){
             console.log(response);
-            
+            res.redirect('/')
     
         }).catch(function(error){
             console.log(error);
         })
     
         //return user home after adding stream
-        res.redirect('/')
+        // res.redirect('/')
     });
 
     app.get("/streamData/:id", function(req,res){
