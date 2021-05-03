@@ -19,13 +19,22 @@
     
     <form id="login-form" action="/verification_check" method="POST">
       <div class="mb-3">
-        <label for="exampleDropdownFormEmail" class="form-label">Username</label>
+        <label for="exampleDropdownFormEmail" class="form-floating">Username</label>
         <input type="email" class="form-control" id="exampleDropdownFormEmail" placeholder="Username" name="email">
+      </input>
       </div>
       <div class="mb-3">
-        <label for="exampleDropdownFormPassword" class="form-label">Password</label>
+        <label for="exampleDropdownFormPassword" class="form-floating">Password</label>
         <input type="password" class="form-control" id="exampleDropdownFormPassword" placeholder="Password" name="password">
-      </div>
+      </input>
+    </div>
+    <div class = "checkbox mb-3">
+      <label>
+        <input type = "checkbox" value = "remember-me">
+        </input>
+        Remember me
+      </label>
+
       <div class="mb-3">
         <button type="submit" class="btn btn-sm btn-outline-secondary">Sign in</button>
       </div>

@@ -28,14 +28,14 @@ module.exports = function(app) {
         axios.post(sweepAPI.url + "stream", streamData, sweepAPI.config)
         .then(function(response){
             console.log(response);
-            
+            res.redirect('/')
     
         }).catch(function(error){
             console.log(error);
         })
     
         //return user home after adding stream
-        res.redirect('/')
+        // res.redirect('/')
     });
 
     app.get("/streamData/:id", function(req,res){
@@ -104,5 +104,24 @@ module.exports = function(app) {
 
     });
     
+    app.get("/deleteStream", function(req,res){
+        res.render("deleteStream");
+
+    });
+
+
+    app.get("/deleteStream/:id", function(req,res){
+        const streamID = req.params.id;
+
+        axios.delete(sweepAPI.url + "stream/" + streamID, sweepAPI.config)
+        .then(function(response){
+            res.redirect("/")
+            console.log(response);
+
+        }).catch(function(error){
+            console.log(error);
+        })
+
+    });
 
 };
