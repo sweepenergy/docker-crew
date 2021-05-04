@@ -210,3 +210,7 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+/* #dummyValues{
+  background-color: rgba(0, 0, 0, 0.8)
+} */
