@@ -4,10 +4,6 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-// read port and host addresses from .env file or cloud host's default
-const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || "localhost";
-
 // require expressjs module
 const express = require("express");
 const app = express();
@@ -100,6 +96,9 @@ app.get('/test', function(req,res){
 
 });
 
+// read port and host addresses from .env file or cloud host's default
+const PORT = process.env.PORT || 8080;
+const HOST = process.env.HOST || '0.0.0.0';
 
 // Return error if user attempts to access endpoint that isnt defined
 app.get("*", function(request, response){

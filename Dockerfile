@@ -16,7 +16,7 @@ RUN npm install
 COPY . .
 
 #App binds to port 8080, map by docker daemon
-EXPOSE 3000
+EXPOSE 8080
 
 #define runtiem & run app
 CMD [ "node", "app.js" ]
