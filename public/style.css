@@ -147,6 +147,7 @@ div.position-sticky{
   text-align: center;
 }
 
+
 /* Link used for the switch css: https://www.w3schools.com/howto/howto_css_switch.asp*/
 /* The switch - the box around the slider */
 .switch {
@@ -210,3 +211,8 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+/* #dummyValues{
+  background-color: rgba(0, 0, 0, 0.8)
+} */
+
