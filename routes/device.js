@@ -34,7 +34,7 @@ module.exports = function(app){
         const streamID = req.params.id;
         console.log(streamID);
 
-        axios.get(sweepAPI.url+"stream/"+streamID, sweepAPI.config)
+        axios.get(sweepAPI.url+"stream/"+streamID, sweepAPI.config())
             .then(function(response){
                 // console.log(response.data);
                 res.render("addDevice",{
@@ -86,7 +86,7 @@ module.exports = function(app){
                     console.log(temp);
 
                     //currently updating data on hour by the week
-                    axios.post(sweepAPI.url + "stream/"+streamID+"/ts/"+variableName+"/dataset?span=raw&time_scale=custom&range_start=2021-04-29T01:04:26.549Z&range_end=2021-04-29T02:04:26.549Z&limit=100&ts_type=undefined", temp, sweepAPI.config)
+                    axios.post(sweepAPI.url + "stream/"+streamID+"/ts/"+variableName+"/dataset?span=raw&time_scale=custom&range_start=2021-04-29T01:04:26.549Z&range_end=2021-04-29T02:04:26.549Z&limit=100&ts_type=undefined", temp, sweepAPI.config())
                     .then(function(response){
                         console.log(response.data);
                         
@@ -103,19 +103,7 @@ module.exports = function(app){
             .then(function(){
                 res.redirect("/")
             })
-            // .then(function(){
-            //     console.log("data in next .then " + data.sample);
-
-            //     axios.post(sweepAPI.url + "stream//ts/Voltage b//dataset", data, sweepAPI.config)
-            //     .then(function(response){
-            //         console.log(response.data);
-                    
-            //     })
-            //     .catch( function(error){
-            //         console.log("THERE WAS AN ERROR");
-            //         // console.log(error);
-            //     });
-            // })
+    
             .catch(function(e) {
                 //print error if errors out
                 console.log("this is where error is")

@@ -20,7 +20,7 @@ module.exports = function(app){
         var dirData = req.body;
         //console.log(dirData);
         
-        axios.post(sweepAPI.url + "directory", dirData, sweepAPI.config)
+        axios.post(sweepAPI.url + "directory", dirData, sweepAPI.config())
             .then(function(response){
                 console.log(response);
     
@@ -33,26 +33,64 @@ module.exports = function(app){
         
     });
 
-    // Delete directory given streamID
-    app.get("/deleteDirectory", function(req, res){
+    app.get("/deleteDirectory", function(req,res){
+        res.render("deleteDirectory.ejs");
+    });
+    
+    app.get("/deleteDirectory/:id", async function(req,res){
+        const TempId = req.params.id;
+        console.log(TempId);
+    
+        // username: process.env.AUTH_KEY,
+        // password: process.env.AUTH_TOKEN
+        var username1 = process.env.AUTH_KEY
+        var password1 = process.env.AUTH_TOKEN
+        
+    
+    
+        const token = Buffer.from(`${username1}:${password1}`, 'utf8').toString('base64')
+        
+        try{
+            const resp = await axios.delete(sweepAPI.url + "directory/" + TempId,{
+                headers:{
+                    'Content-Type':'application/json',
+                    'Authorization': `Basic ${token}`
+                }
+            })
+            
+            console.log(resp.data)
+            res.redirect("/");
+            
+    
+        }catch(e){
+            console.log(e);
+        }
+            
+    
+    
+    });
 
-        //TODO: Pass directoryID from Frontend
-        var directoryID = "fcc9aca4-7004-4f8c-8a4a-f31a7df2e915";
-        console.log(req.params);
 
-        axios.delete(sweepAPI.url + 'directory/' + directoryID, sweepAPI.config).then(function(response){
-                console.log(response);
-                console.log (req.params);
+    // // Delete directory given streamID
+    // app.get("/deleteDirectory:id", function(req, res){
+
+    //     var directoryID = req.params.id;
+
+    //     console.log(directoryID);
+
+    //     axios.delete(sweepAPI.url + 'directory/' + directoryID, sweepAPI.config).then(function(response){
+    //             console.log(response);
+    //             console.log (req.params);
                 
     
-            }).catch(function(error){
-                console.log(error);
-            });
+    //         }).catch(function(error){
+    //             console.log(error);
+    //         });
     
-        // return user to homepage
-        res.redirect("/");
+    //     // return user to homepage
+    //     res.redirect("/");
         
-    });
+    // });
 
     
     app.get('/directories', function(req,res){
