@@ -20,7 +20,7 @@ module.exports = function(app){
         var dirData = req.body;
         //console.log(dirData);
         
-        axios.post(sweepAPI.url + "directory", dirData, sweepAPI.config)
+        axios.post(sweepAPI.url + "directory", dirData, sweepAPI.config())
             .then(function(response){
                 console.log(response);
     
