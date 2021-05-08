@@ -34,7 +34,7 @@ module.exports = function(app){
         const streamID = req.params.id;
         console.log(streamID);
 
-        axios.get(sweepAPI.url+"stream/"+streamID, sweepAPI.config)
+        axios.get(sweepAPI.url+"stream/"+streamID, sweepAPI.config())
             .then(function(response){
                 // console.log(response.data);
                 res.render("addDevice",{

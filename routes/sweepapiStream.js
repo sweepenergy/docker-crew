@@ -8,7 +8,7 @@ const sweepAPI = require('./sweepapiAuth');
 module.exports = function(app) {
 
     app.get("/addStream", function(req,res){
-        axios.get(sweepAPI.url + "directory/home", sweepAPI.config).then(function(response){
+        axios.get(sweepAPI.url + "directory/home", sweepAPI.config()).then(function(response){
             res.render("addStream", {
                 
                 homeDirectory : response.data
@@ -25,7 +25,7 @@ module.exports = function(app) {
         var streamData = req.body;
         // console.log(streamData);
     
-        axios.post(sweepAPI.url + "stream", streamData, sweepAPI.config)
+        axios.post(sweepAPI.url + "stream", streamData, sweepAPI.config())
         .then(function(response){
             console.log(response);
             res.redirect('/')
@@ -42,7 +42,7 @@ module.exports = function(app) {
         const id = req.params.id;
         console.log(id);
     
-        axios.get(sweepAPI.url + "stream/" + id, sweepAPI.config)
+        axios.get(sweepAPI.url + "stream/" + id, sweepAPI.config())
             .then(function(response){
                 // console.log(response.data);
                 res.render("streamData",{
@@ -91,7 +91,7 @@ module.exports = function(app) {
         // console.log(req.body);
         var tempData = req.body;
 
-        axios.post(sweepAPI.url+"stream/"+id+"/ts", tempData, sweepAPI.config)
+        axios.post(sweepAPI.url+"stream/"+id+"/ts", tempData, sweepAPI.config())
         .then(function(response){
             console.log(response);
 
@@ -113,7 +113,7 @@ module.exports = function(app) {
     app.get("/deleteStream/:id", function(req,res){
         const streamID = req.params.id;
 
-        axios.delete(sweepAPI.url + "stream/" + streamID, sweepAPI.config)
+        axios.delete(sweepAPI.url + "stream/" + streamID, sweepAPI.config())
         .then(function(response){
             res.redirect("/")
             console.log(response);

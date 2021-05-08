@@ -54,7 +54,7 @@ module.exports = function(app){
     //Get api token and key from existing Sweep API account
     app.get('/login', function(req, res, next) { 
 
-        axios.get(sweepAPI.url + "account/verify_auth", sweepAPI.config).then(function(response){
+        axios.get(sweepAPI.url + "account/verify_auth", sweepAPI.config()).then(function(response){
             res.render("directories", {
                 homeDirectory: response.data
             });
@@ -76,7 +76,7 @@ module.exports = function(app){
 
         // TODO: Fix async function to write auth key and token
         /* async function f() {
-            axios.post(sweepAPI.url + "account/auth", accountData, sweepAPI.config)
+            axios.post(sweepAPI.url + "account/auth", accountData, sweepAPI.config())
             .then(function(response){
                 // console.log(response.data);
                 if(response.data.status === "error_not_valid_auth" ){
@@ -121,7 +121,7 @@ module.exports = function(app){
 
 
         // NOTE: The following chunck gets auth key and token from sweep api and writes it to .env
-        axios.post(sweepAPI.url + "account/auth", accountData, sweepAPI.config)
+        axios.post(sweepAPI.url + "account/auth", accountData, sweepAPI.config())
         .then(function(response){
             // console.log(response.data);
             if(response.data.status === "error_not_valid_auth" ){
@@ -167,7 +167,7 @@ module.exports = function(app){
 
         console.log(req.body);
 
-        axios.post(sweepAPI.url + "account/auth/api_key", req.body, sweepAPI.config)
+        axios.post(sweepAPI.url + "account/auth/api_key", req.body, sweepAPI.config())
             .then(function(response){
                 console.log(response);
     
@@ -181,7 +181,7 @@ module.exports = function(app){
 
     app.get('/apis', function(req,res){
 
-        axios.get(sweepAPI.url + "account/auth/api_key/", sweepAPI.config).then(function(response){
+        axios.get(sweepAPI.url + "account/auth/api_key/", sweepAPI.config()).then(function(response){
             res.render("apis", {
                 ActiveAPIs: response.data
             });

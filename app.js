@@ -4,10 +4,6 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-// read port and host addresses from .env file or cloud host's default
-const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || "localhost";
-
 // require expressjs module
 const express = require("express");
 const app = express();
@@ -32,26 +28,34 @@ require('./routes/sweepapiStream')(app);
 require('./routes/sweepapiDirectory')(app); // import /addDirectory endpoints
 require('./routes/device')(app); 
 
+
+// Pull sweepAPI const variables from info from .env file
+const auth_key = process.env.AUTH_KEY;
+const auth_token = process.env.AUTH_TOKEN;
+
 // homepage endpoint (site root directory)
 app.get("/", function(req, res){
+    //test if auth_key and token are valid   
+    sweepAPI.validateAuth(auth_key, auth_token).then(function(valid){
+        // Redirect user to setup page if sweep api authentication undefined
+        if (!valid){
+            console.log("Redirect to Login Page...");
+            res.redirect('/setup'); 
+        }else{
+            // Display Homepage 
+            console.log("Displate Homepage...");
+            axios.get(sweepAPI.url + "directory/home", sweepAPI.config()).then(function(response){
+                //console.log(response.data);
+                res.render("homepage", {
+                    homeDirectory : response.data
+                });
 
-    // Redirect user to setup page if sweep api authentication undefined
-    if(!(sweepAPI.getKey() || sweepAPI.getToken())){
-        res.redirect('/setup');
-    }
-
-    // STREATCH GOAL: Check app user login (non Sweep API)
-
-    // Display Homepage 
-  axios.get(sweepAPI.url + "directory/home", sweepAPI.config).then(function(response){
-        //console.log(response.data);
-        res.render("homepage", {
-            homeDirectory : response.data
-        });
-
-    }).catch(function(error){
-        console.log("Error: " + error);
-    });
+            }).catch(function(error){
+                console.log("Error: " + error);
+            });
+        }
+        
+    })
 });
 
 app.get('/list', function(req,res){
@@ -100,6 +104,9 @@ app.get('/test', function(req,res){
 
 });
 
+// read port and host addresses from .env file or cloud host's default
+const PORT = process.env.PORT || 8080;
+const HOST = process.env.HOST || '0.0.0.0';
 
 // Return error if user attempts to access endpoint that isnt defined
 app.get("*", function(request, response){
